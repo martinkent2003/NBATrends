@@ -10,5 +10,5 @@ import { VisualizationComponent } from './Pages/visualization/visualization.comp
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'client';
+  title = 'POOP';
 }
