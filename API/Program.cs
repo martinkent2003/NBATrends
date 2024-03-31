@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<DataContext>(opt => 
 {
-    opt.UseOracle("CiseOracle");
+    opt.UseOracle(builder.Configuration.GetConnectionString("CiseOracle"));
 });
 
 var app = builder.Build();
