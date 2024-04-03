@@ -13,16 +13,14 @@ export class VisualizationComponent {
 		animationEnabled: true,
 		theme: "light2",
 		title: {
-			text: "New York Climate - 2021"
+			text: "Points"
 		},
 		axisX: {
-			valueFormatString: "MMM",
-			intervalType: "month",
 			interval: 1
 		},
 		axisY: {
-			title: "Temperature",
-		  suffix: "°F"
+			title: "Points",
+		    suffix: ""
 		},
 		toolTip: {
 			shared: true
@@ -40,42 +38,42 @@ export class VisualizationComponent {
 		},
 		data: [{
 			type:"line",
-			name: "Minimum",
+			name: "Lebron James",
 			showInLegend: true,
-			yValueFormatString: "#,###°F",
+			yValueFormatString: "",
 			dataPoints: [		
-				{ x: new Date(2021, 0, 1), y: 27 },
-				{ x: new Date(2021, 1, 1), y: 28 },
-				{ x: new Date(2021, 2, 1), y: 35 },
-				{ x: new Date(2021, 3, 1), y: 45 },
-				{ x: new Date(2021, 4, 1), y: 54 },
-				{ x: new Date(2021, 5, 1), y: 64 },
-				{ x: new Date(2021, 6, 1), y: 69 },
-				{ x: new Date(2021, 7, 1), y: 68 },
-				{ x: new Date(2021, 8, 1), y: 61 },
-				{ x: new Date(2021, 9, 1), y: 50 },
-				{ x: new Date(2021, 10, 1), y: 41 },
-				{ x: new Date(2021, 11, 1), y: 33 }
+				{ x: 2010, y: 27, label: "2010" },
+				{ x: 2011, y: 28, label: "2011" },
+				{ x: 2012, y: 35, label: "2012" },
+				{ x: 2013, y: 45, label: "2013" },
+				{ x: 2014, y: 54, label: "2014" },
+				{ x: 2015, y: 64, label: "2015" },
+				{ x: 2016, y: 69, label: "2016" },
+				{ x: 2017, y: 68, label: "2017" },
+				{ x: 2018, y: 61, label: "2018" },
+				{ x: 2019, y: 50, label: "2019" },
+				{ x: 2020, y: 41, label: "2020" },
+				{ x: 2021, y: 33, label: "2021" }
 			]
 		},
 		{
 			type: "line",
-			name: "Maximum",
+			name: "Kevin Durant",
 			showInLegend: true,
-			yValueFormatString: "#,###°F",
+			yValueFormatString: "",
 			dataPoints: [
-				{ x: new Date(2021, 0, 1), y: 40 },
-				{ x: new Date(2021, 1, 1), y: 42 },
-				{ x: new Date(2021, 2, 1), y: 50 },
-				{ x: new Date(2021, 3, 1), y: 62 },
-				{ x: new Date(2021, 4, 1), y: 72 },
-				{ x: new Date(2021, 5, 1), y: 80 },
-				{ x: new Date(2021, 6, 1), y: 85 },
-				{ x: new Date(2021, 7, 1), y: 84 },
-				{ x: new Date(2021, 8, 1), y: 76 },
-				{ x: new Date(2021, 9, 1), y: 64 },
-				{ x: new Date(2021, 10, 1), y: 54 },
-				{ x: new Date(2021, 11, 1), y: 44 }
+				{ x: 2010, y: 40, label: "2010" },
+				{ x: 2011, y: 42, label: "2011" },
+				{ x: 2012, y: 50, label: "2012" },
+				{ x: 2013, y: 62, label: "2013" },
+				{ x: 2014, y: 72, label: "2014" },
+				{ x: 2015, y: 80, label: "2015" },
+				{ x: 2016, y: 85, label: "2016" },
+				{ x: 2017, y: 84, label: "2017" },
+				{ x: 2018, y: 76, label: "2018" },
+				{ x: 2019, y: 64, label: "2019" },
+				{ x: 2020, y: 54, label: "2020" },
+				{ x: 2021, y: 44, label: "2021" }
 			]
 		}]
 	}	
