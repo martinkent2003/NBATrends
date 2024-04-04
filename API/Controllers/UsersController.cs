@@ -20,7 +20,7 @@ public class UsersController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<AppUser>> GetUsers()
     {
-        var users = _context.Users.FromSql($"SELECT * FROM \"Users\"").ToList();
+        var users = _context.Users.FromSql($"SELECT * FROM Users").ToList();
         return users;
     }
     [HttpGet("{id}")] // /api/users/3

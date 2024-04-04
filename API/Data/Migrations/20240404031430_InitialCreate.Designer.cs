@@ -8,10 +8,10 @@ using Oracle.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace API.Data.Migrations
+namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240331012810_InitialCreate")]
+    [Migration("20240404031430_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -28,17 +28,19 @@ namespace API.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("NUMBER(10)")
+                        .HasColumnName("ID");
 
                     OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("NVARCHAR2(2000)")
+                        .HasColumnName("USERNAME");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("PK_USERS");
 
-                    b.ToTable("Users");
+                    b.ToTable("USERS", (string)null);
                 });
 #pragma warning restore 612, 618
         }
