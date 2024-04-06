@@ -23,6 +23,7 @@ public class UsersController : ControllerBase
         var users = _context.Users.FromSql($"SELECT * FROM Users").ToList();
         return users;
     }
+    
     [HttpGet("{id}")] // /api/users/3
     public ActionResult<AppUser> GetUser(int id)
     {

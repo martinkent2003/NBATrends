@@ -15,5 +15,4 @@ public class Player
     public string LastName { get; set; }
     [NotNull]
     public int IsActive { get; set; }
-    
 }
