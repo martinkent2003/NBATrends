@@ -13,4 +13,5 @@ public class DataContext : DbContext
     public DbSet<AppUser> Users { get; set; }
     public DbSet<Team> Teams { get; set; }
     public DbSet<Player> Players { get; set; }
+    public DbSet<CommonPlayerInfo> CommonPlayerInfos{ get; set;}
 }
