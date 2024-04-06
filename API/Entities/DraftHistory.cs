@@ -22,5 +22,4 @@ public class DraftHistory
     public string Organization { get; set; }
     public string OrganizationType { get; set; }
     public int PlayerProfileFlag { get; set; }
-    //foreign
 }
