@@ -1,0 +1,17 @@
+
+
+
+.graph-button {
+    margin-top: 10px; /* Adjust the top margin to provide space between the graph and button */
+    max-height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three columns */
+    grid-template-rows: repeat(2, 1fr); /* Two rows */
+    gap: 10px; /* Adjust as needed */
+}

@@ -1,2 +1,69 @@
-<h3>Group Members</h3>
-<p>Member names</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Data Trend Analysis</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="about.component.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            /* max-width: 2000px; */
+            margin: 20px auto;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            margin-bottom: 40px;
+        }
+        li {
+            display: inline-block;
+            font-size: 16px;
+            margin-right: 0px; 
+        }
+        
+        li:not(:last-child)::after {
+            content: ",";
+            margin-right: 5px; 
+        }
+        p 
+        {
+            margin-top: 20px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            max-width: 2000px; 
+            text-align: justify; 
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>NBA Data Trend Analysis</h1>
+        <ul>
+            <li>Ethan Alexander</li>
+            <li>Joseph Cuenco</li>
+            <li>Martin Kent</li>
+            <li>Derek Meyer</li>
+            <li>Alexander Vargas</li>
+        </ul>
+        <p>
+            (CHANGE! Taken straight from Deliverable, give more website-appropriate intro to software)In the world of the NBA, fans often debate key topics such as offensive performance trends and player impacts on team success. This database provides fans with access to a wealth of statistical data, enabling them to support their arguments with concrete evidence and gain deeper insights into the intricacies of the game. Additionally, this database serves as a valuable tool for coaches, providing them with access to comprehensive statistical data that can aid in performance evaluation, opponent scouting, and game planning. For instance, understanding the correlation between a team's three-point shooting volume and its win percentage over time can help coaches optimize their team's offensive strategies and player rotations.
+        </p>
+        <button (click)="navigateToQueryPage()">Create a Query</button>    
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="about.component.js"></script>
+</body>
+</html>

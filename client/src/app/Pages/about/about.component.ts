@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 
 @Component({
@@ -8,5 +9,9 @@ import { Component } from '@angular/core';
   styleUrl: './about.component.css'
 })
 export class AboutComponent {
+  constructor(private router: Router) {}
 
+  navigateToQueryPage(): void {
+    this.router.navigateByUrl('/form');
+  }
 }
