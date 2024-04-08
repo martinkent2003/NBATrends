@@ -12,14 +12,14 @@ public class DraftHistory
     public int PersonId { get; set; }
     [NotNull]
     public int SeasonId { get; set; }
-    public int RoundNumber { get; set; }
-    public int RoundPick { get; set; }
-    public int OverallPick { get; set; }
+    public int? RoundNumber { get; set; }
+    public int? RoundPick { get; set; }
+    public int? OverallPick { get; set; }
 
     [ForeignKey("TeamId")]
     [NotNull]
     public int TeamId { get; set; }
-    public string Organization { get; set; }
-    public string OrganizationType { get; set; }
-    public int PlayerProfileFlag { get; set; }
+    public string? Organization { get; set; }
+    public string? OrganizationType { get; set; }
+    public int? PlayerProfileFlag { get; set; }
 }
