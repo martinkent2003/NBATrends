@@ -4,11 +4,11 @@ import { User } from "../Models/user";
 
 @Injectable({providedIn: 'root'})
 export class QueryService {
-  baseUrl = 'http://localhost:5000/api/'
+  baseUrl = 'https://localhost:5001/api/'
 
   constructor(private http: HttpClient) { }
 
   getAllUsers() {
-    return this.http.get<User[]>(this.baseUrl + 'users/')
+    return this.http.get<User[]>(this.baseUrl + 'users')
   }
 }
