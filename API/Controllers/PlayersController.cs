@@ -25,5 +25,4 @@ public class PlayersController : ControllerBase
         var firstOverallPicks = _context.Players.FromSqlRaw("SELECT * FROM Player p WHERE p.PersonId IN (SELECT dh.PersonId FROM DraftHistory dh WHERE dh.OverallPick = 1);").ToList();
         return firstOverallPicks;
     }
-
 }
