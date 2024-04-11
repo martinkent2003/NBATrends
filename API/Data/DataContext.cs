@@ -15,4 +15,5 @@ public class DataContext : DbContext
     public DbSet<Player> Players { get; set; }
     public DbSet<CommonPlayerInfo> CommonPlayerInfos{ get; set;}
     public DbSet<DraftHistory> DraftHistories { get; set; }
+    public DbSet<Game> Games { get; set; }
 }
