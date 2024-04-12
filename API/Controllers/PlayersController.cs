@@ -22,7 +22,14 @@ public class PlayersController : ControllerBase
 
     [HttpGet("firstOverallPicks")] //api/players/firstOverallPicks
     public ActionResult<IEnumerable<Player>> GetFirstOverallPicks(){
-        var firstOverallPicks = _context.Players.FromSqlRaw("SELECT * FROM Player p WHERE p.PersonId IN (SELECT dh.PersonId FROM DraftHistory dh WHERE dh.OverallPick = 1);").ToList();
-        return firstOverallPicks;
-    }
+        var firstOverallPicks = _context.Players
+                                     .FromSqlRaw("SELECT p.FirstName " +
+                                                 "FROM Player p " +
+                                                 "JOIN DraftHistory dh ON p.PersonId = dh.PersonId " +
+                                                 "WHERE dh.OverallPick = 1")
+                                     .Select(player => new { player.FirstName })
+                                     .ToList();
+        return Ok(firstOverallPicks);
+    }   
+
 }
