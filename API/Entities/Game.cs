@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -108,8 +107,13 @@ namespace API.Entities
         [ForeignKey("ATeamId")]
         public virtual Team AwayTeam { get; set; }
 
-        //only for aggregate query use
+        //used for SQL generated attributes(like AVG, SUM, etc.)
+        public double? DoubleAttribute { get; set; }
+        public int? IntAttribute { get; set; }
+        public int? StringAttribute { get; set; }
+
         public int? Year { get; set; }
-        public int? AvgAttribute { get; set; }
+        public double? AvgAttribute { get; set; }
+
     }
 }

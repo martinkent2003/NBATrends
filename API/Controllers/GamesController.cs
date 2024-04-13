@@ -88,26 +88,25 @@ namespace API.Controllers
             var awayAttr = "A" + attribute;
 
             var query = 
-                "SELECT * FROM ("+
-                $"SELECT {homeAttr} AS attribute, Game.* " +
+                "SELECT attribute, GameDate FROM ("+
+                $"SELECT {homeAttr} AS attribute, GameDate " +
                 "FROM Game " +
                 $"WHERE HTeamId = {team} " +
-                $"AND GameDate BETWEEN TO_DATE('{fromYear}', 'YYYY') AND TO_DATE('{toYear}', 'YYYY') "+
+                $"AND GameDate BETWEEN TO_DATE({fromYear}, 'YYYY') AND TO_DATE({toYear}, 'YYYY')"+
                 "UNION " +
-                $"SELECT {awayAttr} AS attribute, Game.* " +
+                $"SELECT {awayAttr} AS attribute, GameDate " +
                 "FROM Game " +
                 $"WHERE ATeamId = {team} " +
-                $"AND GameDate BETWEEN TO_DATE('{fromYear}', 'YYYY') AND TO_DATE('{toYear}', 'YYYY')"+
+                $"AND GameDate BETWEEN TO_DATE({fromYear}, 'YYYY') AND TO_DATE({toYear}, 'YYYY')"+
                 ") ORDER BY GameDate ASC";
 
 
-            //help me here pls 
             var seasonAverage = _context
                 .Games
                 .FromSqlRaw(query)
-                .Select(daa => new DateAndAttribute{
-                    GameAttribute = EF.Property<dynamic>(daa, homeAttr),
-                    GameDate = daa.GameDate
+                .Select(daa => new{
+                    daa.DoubleAttribute, // Access the aliased attribute
+                    daa.GameDate
                 })
                 .ToList();
             
@@ -133,20 +132,18 @@ namespace API.Controllers
                 $"  FROM Game " +
                 $"  WHERE ATeamId = {team} AND GameDate BETWEEN TO_DATE({fromYear}, 'YYYY') AND TO_DATE({toYear}, 'YYYY')" +
                 $") " +
-                $"GROUP BY Year " +
+                $"GROUP BY EXTRACT(YEAR FROM GameDate) " +
                 $"ORDER BY Year ASC";
 
             
             var yearlyAverages = _context
                 .Games
-                .FromSqlRaw(query)
-                .Select(daa => new GraphPoint{
-                    x = daa.Year,
-                    y = daa.AvgAttribute
+                .FromSqlRaw(query).
+                Select(daa => new{
+                    daa.Year,
+                    daa.AvgAttribute
                 })
                 .ToList();
-
-
             return Ok(yearlyAverages);
         }
 
