@@ -2,6 +2,7 @@ using API.Data;
 using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Oracle.ManagedDataAccess.Client;
 
 
 namespace API.Controllers;
@@ -23,18 +24,29 @@ public class TeamsController : ControllerBase
         var teams = _context.Teams.FromSqlRaw("SELECT * FROM Team").ToList();
         return teams;
     }
-    [HttpGet("names")]
-    public ActionResult<IEnumerable<Team>> GetTeamNames(){
-        var teamNames = _context.Teams.FromSqlRaw("SELECT FullName FROM Team")
-                                                .Select(name => new { name.FullName })                  
-                                                .ToList();
-        return Ok(teamNames);
-    }
-    /*
     [HttpGet("attribute/{attribute}")]
-    public ActionResult<IEnumerable<AnyType>> GetSpecificTeamAttribute(string attribute){
-        var specificTeamAttribute = _context.Teams.FromSqlRaw($"SELECT {attribute} FROM Team").ToList();
-        return specificTeamAttribute;
+    public ActionResult<IEnumerable<string>> GetTeamAttribute(string attribute)
+    {
+        // List of valid column names to ensure the query is safe from SQL injection
+        var validColumns = new HashSet<string> {"TeamId",
+                                                "FullName",
+                                                "Abbreviation",
+                                                "Nickname",
+                                                "YearFounded",
+                                                "Facebook",
+                                                "Instagram",
+                                                "Twitter" }; // Add actual valid column names here
+
+        if (!validColumns.Contains(attribute))
+        {
+            return BadRequest("Invalid attribute name.");
+        }
+
+        var query = $"SELECT {attribute} FROM Team";
+        var teamAttributes = _context.Teams
+            .FromSqlRaw(query)
+            .Select(t => EF.Property<string>(t, attribute)) // Dynamically access the property
+            .ToList();
+        return Ok(teamAttributes);
     }
-    */
 }

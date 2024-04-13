@@ -30,6 +30,7 @@ public class PlayersController : ControllerBase
                                      .Select(player => new { player.FirstName })
                                      .ToList();
         return Ok(firstOverallPicks);
-    }   
+    }  
+
 
 }
