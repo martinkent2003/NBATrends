@@ -1,3 +1,4 @@
+using API.Data.DTOs;
 using API.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,5 +17,6 @@ public class DataContext : DbContext
     public DbSet<CommonPlayerInfo> CommonPlayerInfos{ get; set;}
     public DbSet<DraftHistory> DraftHistories { get; set; }
     public DbSet<Game> Games { get; set; }
-    public DbSet<PlayerBoxScore> playerBoxScores{ get; set;}
+    public DbSet<PlayerBoxScore> PlayerBoxScores{ get; set;}
+
 }

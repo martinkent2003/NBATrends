@@ -17,7 +17,7 @@ namespace API.Controllers
 
         [HttpGet]
         public ActionResult<IEnumerable<PlayerBoxScore>> GetGames(){
-            var boxScores = _context.playerBoxScores.FromSqlRaw("SELECT * FROM PlayerBoxScore where GameId=29400122;").ToList();
+            var boxScores = _context.PlayerBoxScores.FromSqlRaw("SELECT * FROM PlayerBoxScore where GameId=29400122;").ToList();
             return boxScores;
         }
     }
