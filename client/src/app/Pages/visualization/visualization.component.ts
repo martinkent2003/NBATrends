@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { LineData } from '../../Models/dataPoint';
 import { QueryService } from '../../Services/query.service';
+import { ParamsComponent } from './params/params.component';
 
 @Component({
-  selector: 'app-visualization',
-  standalone: true,
-  imports: [CanvasJSAngularChartsModule],
-  templateUrl: './visualization.component.html',
-  styleUrl: './visualization.component.css'
+    selector: 'app-visualization',
+    standalone: true,
+    templateUrl: './visualization.component.html',
+    styleUrl: './visualization.component.css',
+    imports: [CanvasJSAngularChartsModule, ParamsComponent]
 })
 export class VisualizationComponent implements OnInit{
 
