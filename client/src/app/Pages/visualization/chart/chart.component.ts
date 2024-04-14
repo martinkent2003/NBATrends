@@ -89,8 +89,9 @@ export class ChartComponent implements OnInit, AfterViewInit{
   handleQuery(queryParams: QueryParams){
     this.chartOptions.data = []
     if (queryParams.selectTeam) {
+      this.chartOptions.axisY.title = queryParams.attributeOptionDisplay as string
       for (let teamName of queryParams.teamsSelected) {
-        this.queryService.getTeamStatYearly(this.teamsPlayersService.teamNameToId.get(teamName)!, "Rebounds", 1990, 2020).subscribe({
+        this.queryService.getTeamStatYearly(this.teamsPlayersService.teamNameToId.get(teamName)!, queryParams.attributeOptions[queryParams.attributeSelected as number], queryParams.fromYear, queryParams.toYear).subscribe({
           next: res => {
             var dataPointArray: DataPoint[] = []
             for (let stat of res) {

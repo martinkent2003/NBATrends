@@ -28,6 +28,40 @@ export class ParamsComponent implements OnInit{
   players$: Observable<String[]>
   playerFilter = new FormControl('', { nonNullable: true })
 
+  queryOptions: String[] = [
+    'Complex Query 1',
+    'Complex Query 2',
+    'Complex Query 3',
+    'Complex Query 4',
+    'Complex Query 5',
+    'Custom Query',
+  ]
+
+  attributeOptions: String[] = [
+    'Field Goals Made',
+    'Filed Goals Attempted',
+    'Field Goal Percentage',
+    'Three Pointers Made',
+    'Three Pointers Attempted',
+    'Three Point Percentage',
+    'Free Throws Made',
+    'Free Throws Attempted',
+    'Free Throw Percentage',
+    'Offensive Rebounds',
+    'Defensive Rebounds',
+    'Total Rebounds',
+    'Assists',
+    'Steals',
+    'Blocks',
+    'Turnovers',
+    'Personal Fouls',
+    'Points',
+    'Plus Minus'
+  ]
+
+  minYear: Number = 1950
+  maxYear: Number = 2023
+
   constructor(private teamsPlayersService: TeamsPlayersService, private queryService: QueryService) {
     this.players$ = this.playerFilter.valueChanges.pipe(
       startWith(''),
@@ -72,14 +106,17 @@ export class ParamsComponent implements OnInit{
     });
   }
 
+  changeQueryOption(ind: Number) { this.queryParams.changeQueryOption(ind) }
   setSelectTeam() { this.queryParams.setSelectTeam() }
   setSelectPlayer() { this.queryParams.setSelectPlayer() }
   addPlayerToList(name: String) { this.queryParams.addPlayerToList(name) }
   addTeamToList(name: String) { this.queryParams.addTeamToList(name) }
   removePlayerFromList(name: String) { this.queryParams.removePlayerFromList(name) }
   removeTeamFromList(name: String) { this.queryParams.removeTeamFromList(name) }
+  chooseAttribute(ind: number, name: String) { this.queryParams.chooseAttribute(ind, name) }
 
   onGenerateGraph() {
     this.queryService.updateQueryParams(this.queryParams)
   }
+
 }

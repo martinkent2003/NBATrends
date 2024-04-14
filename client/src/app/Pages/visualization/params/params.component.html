@@ -1,66 +1,108 @@
 <div class="card bg-light">
+
     <div class="container my-3">
-        
         <div class="card">
             <div class="card-header py-2">
-                <ul class="nav nav-pills card-header-pills">
-                    <li class="nav-item me-2">
-                        Search By:
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link py-0 px-2 btn" [class.active]="queryParams.selectTeam" (click)="setSelectTeam()">Team</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link py-0 px-2 btn" [class.active]="queryParams.selectPlayer" (click)="setSelectPlayer()">Player</a>
-                    </li>
-                </ul>
+                Choose a Query
             </div>
-            
-            <div class="card-body py-3">
-                @if (queryParams.selectPlayer) {
+            <div class="card-body">
+                @for (queryOption of queryOptions; track queryOption; let i = $index) {
+                    <div>
+                        <input
+                            class="form-check-input me-1"
+                            type="checkbox"
+                            [checked]="queryParams.queryOption==i"
+                            (change)="changeQueryOption(i)"
+                            aria-label="...">
+                        {{ queryOption }}
+                    </div>
+                }
+            </div>
+        </div>
+        
+        <!-- CUSTOM QUERY PARAMETERS -->
+        <div *ngIf="queryParams.queryOption==queryOptions.length - 1">
+            <div class="card mt-3" >
+                <div class="card-header py-2">
+                    <ul class="nav nav-pills card-header-pills">
+                        <li class="nav-item me-2">
+                            Search By:
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link py-0 px-2 btn" [class.active]="queryParams.selectTeam" (click)="setSelectTeam()">Team</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link py-0 px-2 btn" [class.active]="queryParams.selectPlayer" (click)="setSelectPlayer()">Player</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="card-body py-3">
+                    @if (queryParams.selectPlayer) {
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle py-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Add Player
+                            <span class="caret"></span></button>
+                            <ul class="dropdown-menu scrollable-menu">
+                            <input class="form-control" id="playerInput" type="text" placeholder="Search..." [formControl]="playerFilter">
+                            @for (player of players$ | async; track player; let i = $index) {
+                                <li><a class="dropdown-item btn" (click)="addPlayerToList(player)">{{ player }}</a></li>
+                            }
+                            </ul>
+                        </div>
+                        <div class="mb-0 mt-3" *ngIf="queryParams.playersSelected.length > 0">
+                            @for (player of queryParams.playersSelected; track player) {
+                                <div class="d-flex flex-row">
+                                    <i class="btn p-0 bi bi-x-lg me-2" (click)="removePlayerFromList(player)"></i>
+                                    <div class="div">{{ player }}</div>
+                                </div>
+                            }
+                        </div>
+                    }
+    
+                    @if (queryParams.selectTeam) {
+                        <div class="dropdown" *ngIf="queryParams.selectTeam">
+                            <button class="btn btn-primary dropdown-toggle py-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Add Team
+                            <span class="caret"></span></button>
+                            <ul class="dropdown-menu scrollable-menu">
+                            <input class="form-control" id="playerInput" type="text" placeholder="Search..." [formControl]="teamFilter">
+                            @for (team of teams$ | async; track team; let i = $index) {
+                                <li><a class="dropdown-item btn" (click)="addTeamToList(team)">{{ team }}</a></li>
+                            }
+                            </ul>
+                        </div>
+                        <div class="mb-0 mt-3" *ngIf="queryParams.teamsSelected.length > 0">
+                            @for (team of queryParams.teamsSelected; track team) {
+                                <div class="d-flex flex-row">
+                                    <i class="btn p-0 bi bi-x-lg me-2" (click)="removeTeamFromList(team)"></i>
+                                    <div class="div">{{ team }}</div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="card mt-3" >
+                <div class="card-header py-2">
+                    Graph Options
+                </div>
+                <div class="card-body">
                     <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle py-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Add Player
+                            Statistic
                         <span class="caret"></span></button>
                         <ul class="dropdown-menu scrollable-menu">
-                        <input class="form-control" id="playerInput" type="text" placeholder="Search..." [formControl]="playerFilter">
-                        @for (player of players$ | async; track player; let i = $index) {
-                            <li><a class="dropdown-item btn" (click)="addPlayerToList(player)">{{ player }}</a></li>
+                        @for (stat of attributeOptions; track stat; let i = $index) {
+                            <li><a class="dropdown-item btn" (click)="chooseAttribute(i, stat)">{{ stat }}</a></li>
                         }
                         </ul>
                     </div>
-                    <div class="mb-0 mt-3" *ngIf="queryParams.playersSelected.length > 0">
-                        @for (player of queryParams.playersSelected; track player) {
-                            <div class="d-flex flex-row">
-                                <i class="btn p-0 bi bi-x-lg me-2" (click)="removePlayerFromList(player)"></i>
-                                <div class="div">{{ player }}</div>
-                            </div>
-                        }
+                    <div class="py-2">
+                        {{ this.attributeOptions.at(queryParams.attributeSelected) }}
                     </div>
-                }
-
-                @if (queryParams.selectTeam) {
-                    <div class="dropdown" *ngIf="queryParams.selectTeam">
-                        <button class="btn btn-primary dropdown-toggle py-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Add Team
-                        <span class="caret"></span></button>
-                        <ul class="dropdown-menu scrollable-menu">
-                        <input class="form-control" id="playerInput" type="text" placeholder="Search..." [formControl]="teamFilter">
-                        @for (team of teams$ | async; track team; let i = $index) {
-                            <li><a class="dropdown-item btn" (click)="addTeamToList(team)">{{ team }}</a></li>
-                        }
-                        </ul>
-                    </div>
-                    <div class="mb-0 mt-3" *ngIf="queryParams.teamsSelected.length > 0">
-                        @for (team of queryParams.teamsSelected; track team) {
-                            <div class="d-flex flex-row">
-                                <i class="btn p-0 bi bi-x-lg me-2" (click)="removeTeamFromList(team)"></i>
-                                <div class="div">{{ team }}</div>
-                            </div>
-                        }
-                    </div>
-                }
-                
+                </div>
             </div>
         </div>
 
