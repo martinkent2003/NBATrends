@@ -150,7 +150,7 @@ namespace API.Controllers
         [HttpGet("AvgPointsPerDecadeSeasonal")]
         public ActionResult<IEnumerable<Game>> GetPtsAvgBySeasonPerDecade(){
             var query = 
-                        "SELECT Decade AS StringAttribute2, Season_Type AS StringAttribute, AVG((Home_Points + Away_Points) / 2) AS AvgAttribute "+
+                        "SELECT Decade AS StringAttribute2, Season_Type AS StringAttribute, ROUND(AVG((Home_Points + Away_Points) / 2),2) AS AvgAttribute "+
                         "FROM ("+
                             "SELECT "+
                                 "CASE "+
