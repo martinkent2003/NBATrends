@@ -147,6 +147,50 @@ namespace API.Controllers
             return Ok(yearlyAverages);
         }
 
+        [HttpGet("query1")]
+        public ActionResult<IEnumerable<Game>> GetPtsAvgBySeasonPerDecade(){
+            var query = 
+                        "SELECT Decade AS StringAttribute2, Season_Type AS StringAttribute, AVG((Home_Points + Away_Points) / 2) AS AvgAttribute "+
+                        "FROM ("+
+                            "SELECT "+
+                                "CASE "+
+                                    "WHEN EXTRACT(YEAR FROM g.Gamedate) BETWEEN 1940 AND 1949 THEN '1940s' "+
+                                    "WHEN EXTRACT(YEAR FROM g.Gamedate) BETWEEN 1950 AND 1959 THEN '1950s' "+
+                                    "WHEN EXTRACT(YEAR FROM g.Gamedate) BETWEEN 1960 AND 1969 THEN '1960s' "+
+                                    "WHEN EXTRACT(YEAR FROM g.Gamedate) BETWEEN 1970 AND 1979 THEN '1970s' "+
+                                    "WHEN EXTRACT(YEAR FROM g.Gamedate) BETWEEN 1980 AND 1989 THEN '1980s' "+
+                                    "WHEN EXTRACT(YEAR FROM g.Gamedate) BETWEEN 1990 AND 1999 THEN '1990s' "+
+                                    "WHEN EXTRACT(YEAR FROM g.Gamedate) BETWEEN 2000 AND 2009 THEN '2000s' "+
+                                    "WHEN EXTRACT(YEAR FROM g.Gamedate) BETWEEN 2010 AND 2019 THEN '2010s' "+
+                                    "ELSE '2020s' "+
+                                "END AS Decade, "+
+                                "CASE "+
+                                    "WHEN g.SEASONTYPE = 'Regular Season' THEN 'Regular Season' "+
+                                    "ELSE 'Playoffs' "+
+                                "END AS Season_Type, "+
+                                "g.HPOINTS AS Home_Points, "+
+                                "g.APOINTS AS Away_Points "+
+                            "FROM "+
+                                "Game g "+
+                        ") "+
+                        "GROUP BY "+
+                            "Decade, "+
+                            "Season_Type "+
+                        "ORDER BY "+
+                            "Decade, "+
+                            "Season_Type ";
+            
+            var SeasonalAvgs = _context
+                .Games
+                .FromSqlRaw(query)
+                .Select(daa => new {
+                    daa.StringAttribute2,
+                    daa.StringAttribute,
+                    daa.AvgAttribute
+                })
+                .ToList();
+            return Ok(SeasonalAvgs);
+        }
 
         [HttpGet("playoff")]
         public ActionResult<IEnumerable<Game>> GetPlayoffGames(){
