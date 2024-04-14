@@ -153,7 +153,7 @@ namespace API.Controllers
             var playoffGames = _context.Games.FromSqlRaw("SELECT * FROM Game g WHERE g.SeasonType = 'Playoffs';").ToList();
             return playoffGames;
         }
-        private static dynamic GetAttributeValue(Game game, string attribute)
+        private static dynamic? GetAttributeValue(Game game, string attribute)
         {
             switch (attribute)
             {
