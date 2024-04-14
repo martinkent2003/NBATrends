@@ -19,8 +19,11 @@ namespace API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<CommonPlayerInfo>> GetPlayerInfo()
         {
-            var playerInfo = _context.CommonPlayerInfos.FromSqlRaw("SELECT * FROM CommonPlayerInfo").ToList();
-            return playerInfo;
+            var playerInfo = _context.CommonPlayerInfos
+                              .FromSqlRaw("SELECT Height, PersonId FROM CommonPlayerInfo")
+                              .Select(info => new { info.Height, info.PersonId })
+                              .ToList();
+            return Ok(playerInfo);
         }
     }
 }

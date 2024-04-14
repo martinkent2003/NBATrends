@@ -1,2 +1,29 @@
-<h3>Group Members</h3>
-<p>Member names</p>
+<div class="container">
+  <h1>NBA Data Trend Analysis</h1>
+  <ul>
+    <li>Ethan Alexander</li>
+    <li>Joseph Cuenco</li>
+    <li>Martin Kent</li>
+    <li>Derek Meyer</li>
+    <li>Alexander Vargas</li>
+  </ul>
+  <p>
+    (CHANGE! Taken straight from Deliverable, give more website-appropriate
+    intro to software)In the world of the NBA, fans often debate key topics such
+    as offensive performance trends and player impacts on team success. This
+    database provides fans with access to a wealth of statistical data, enabling
+    them to support their arguments with concrete evidence and gain deeper
+    insights into the intricacies of the game. Additionally, this database
+    serves as a valuable tool for coaches, providing them with access to
+    comprehensive statistical data that can aid in performance evaluation,
+    opponent scouting, and game planning. For instance, understanding the
+    correlation between a team's three-point shooting volume and its win
+    percentage over time can help coaches optimize their team's offensive
+    strategies and player rotations.
+  </p>
+  <button (click)="navigateToQueryPage()">Create a Query</button>
+  <h1>{{ users.length }}</h1>
+  @for (user of users; track user) {
+  <li>{{ user.id }} {{ user.userName }}</li>
+  }
+</div>
