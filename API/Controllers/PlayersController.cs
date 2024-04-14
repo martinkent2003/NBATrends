@@ -51,5 +51,4 @@ public class PlayersController : ControllerBase
 
         return Ok(yearlyAverages);
     }
-
 }
