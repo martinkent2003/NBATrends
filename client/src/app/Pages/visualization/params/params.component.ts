@@ -4,6 +4,7 @@ import { TeamsPlayersService } from '../../../Services/teams-players.service';
 import { Observable, map, startWith } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { QueryParams } from '../../../Models/queryParams';
+import { QueryService } from '../../../Services/query.service';
 
 @Component({
   selector: 'app-params',
@@ -17,12 +18,7 @@ import { QueryParams } from '../../../Models/queryParams';
   styleUrl: './params.component.css'
 })
 export class ParamsComponent implements OnInit{
-  queryParams: QueryParams = {
-    selectTeam: true,
-    selectPlayer: false,
-    teamsSelected: [],
-    playersSelected: []
-  }
+  queryParams: QueryParams = new QueryParams()
 
   teams: String[] = []
   teams$: Observable<String[]>
@@ -32,7 +28,7 @@ export class ParamsComponent implements OnInit{
   players$: Observable<String[]>
   playerFilter = new FormControl('', { nonNullable: true })
 
-  constructor(private teamsPlayersService: TeamsPlayersService) {
+  constructor(private teamsPlayersService: TeamsPlayersService, private queryService: QueryService) {
     this.players$ = this.playerFilter.valueChanges.pipe(
       startWith(''),
       map((text) => this.filterPlayers(text))
@@ -76,46 +72,14 @@ export class ParamsComponent implements OnInit{
     });
   }
 
-  setSelectTeam() {
-    this.queryParams.selectTeam = true;
-    this.queryParams.selectPlayer = false;
-  }
-
-  setSelectPlayer() {
-    this.queryParams.selectTeam = false;
-    this.queryParams.selectPlayer = true;
-  }
-
-  addPlayerToList(name: String) {
-    const index = this.queryParams.playersSelected.indexOf(name, 0);
-    if (index == -1) {
-      this.queryParams.playersSelected.push(name)
-    }
-  }
-
-  addTeamToList(name: String) {
-    const index = this.queryParams.teamsSelected.indexOf(name, 0);
-    if (index == -1) {
-      this.queryParams.teamsSelected.push(name)
-    }
-  }
-
-  removePlayerFromList(name: String) {
-    const index = this.queryParams.playersSelected.indexOf(name, 0);
-    if (index > -1) {
-      this.queryParams.playersSelected.splice(index, 1);
-    }
-  }
-
-  removeTeamFromList(name: String) {
-    const index = this.queryParams.teamsSelected.indexOf(name, 0);
-    if (index > -1) {
-      this.queryParams.teamsSelected.splice(index, 1);
-    }
-  }
+  setSelectTeam() { this.queryParams.setSelectTeam() }
+  setSelectPlayer() { this.queryParams.setSelectPlayer() }
+  addPlayerToList(name: String) { this.queryParams.addPlayerToList(name) }
+  addTeamToList(name: String) { this.queryParams.addTeamToList(name) }
+  removePlayerFromList(name: String) { this.queryParams.removePlayerFromList(name) }
+  removeTeamFromList(name: String) { this.queryParams.removeTeamFromList(name) }
 
   onGenerateGraph() {
-    console.log(this.queryParams.playersSelected)
-    console.log(this.queryParams.teamsSelected)
+    this.queryService.updateQueryParams(this.queryParams)
   }
 }

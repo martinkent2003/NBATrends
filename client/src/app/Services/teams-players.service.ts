@@ -17,7 +17,6 @@ export class TeamsPlayersService {
     constructor(private http: HttpClient) { }
 
     startService(): void {
-        console.log("Teams")
         this.loadTeams()
         this.loadPlayers()
     }

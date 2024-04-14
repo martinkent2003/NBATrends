@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { VisualizationComponent } from '../visualization/visualization.component';
 import { TeamsPlayersService } from '../../Services/teams-players.service';
+import { ChartComponent } from '../visualization/chart/chart.component';
 
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [VisualizationComponent],
+  imports: [ChartComponent],
   templateUrl: './form.component.html',
   styleUrl: './form.component.css'
 })
