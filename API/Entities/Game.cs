@@ -11,7 +11,7 @@ namespace API.Entities
         [Required]
         public int SeasonId { get; set; }
         
-        public string SeasonType { get; set; }
+        public string? SeasonType { get; set; }
         
         public DateTime? GameDate { get; set; }
         
@@ -102,10 +102,10 @@ namespace API.Entities
         public int? APlusMinus { get; set; }
         
         [ForeignKey("HTeamId")]
-        public virtual Team HomeTeam { get; set; }
+        public virtual Team? HomeTeam { get; set; }
         
         [ForeignKey("ATeamId")]
-        public virtual Team AwayTeam { get; set; }
+        public virtual Team? AwayTeam { get; set; }
 
         //used for SQL generated attributes(like AVG, SUM, etc.)
         public double? DoubleAttribute { get; set; }

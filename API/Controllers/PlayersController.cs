@@ -1,4 +1,5 @@
 using API.Data;
+using API.Data.DTOs;
 using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,5 +33,22 @@ public class PlayersController : ControllerBase
         return Ok(firstOverallPicks);
     }  
 
+    [HttpGet("yearlyAverages/playerId/{playerId}/attribute/{attribute}")] //api/players/yearlyAverages/playerId/1
+    public ActionResult<IEnumerable<DateAndAttribute>> GetYearlyAverage(int playerId, string attribute){
 
+        var query = $"SELECT EXTRACT (YEAR FROM g.GameDate) AS Year, ROUND (AVG(pb.{attribute}),2) as AvgAttribute "+
+                    "FROM Game g "+
+                    "JOIN PlayerBoxScore pb ON g.GameId = pb.GameId "+
+                    $"WHERE pb.PlayerId = {playerId} "+
+                    "GROUP BY EXTRACT (YEAR FROM g.GameDate) "+
+                    "ORDER BY EXTRACT (YEAR FROM g.GameDate) ";   
+
+        var yearlyAverages = _context
+            .Players
+            .FromSqlRaw(query)
+            .Select(g => new { g.Year, g.AvgAttribute })
+            .ToList();
+
+        return Ok(yearlyAverages);
+    }
 }

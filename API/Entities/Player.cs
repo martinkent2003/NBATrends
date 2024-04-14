@@ -1,19 +1,24 @@
 
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 
 namespace API.Entities;
 
 public class Player
 {
     [Key]
-    [NotNull]
+    [Required]
     public int PersonId { get; set; }
-    [NotNull]
-    public string FirstName { get; set; }
-    [NotNull]
-    public string LastName { get; set; }
-    [NotNull]
+    [Required]
+    public string? FirstName { get; set; }
+    [Required]
+    public string? LastName { get; set; }
+    [Required]
     public int IsActive { get; set; }
-    
+
+     //used for SQL generated attributes(like AVG, SUM, etc.)
+    public double? DoubleAttribute { get; set; }
+    public int? IntAttribute { get; set; }
+    public string? StringAttribute { get; set; }
+    public int? Year { get; set; }
+    public double? AvgAttribute { get; set; }
 }

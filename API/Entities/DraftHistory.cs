@@ -15,13 +15,23 @@ public class DraftHistory
 
     [Required]
     public int TeamId { get; set; }
-    public string Organization { get; set; }
-    public string OrganizationType { get; set; }
+    public string? Organization { get; set; }
+    public string? OrganizationType { get; set; }
     public int PlayerProfileFlag { get; set; }
 
     [ForeignKey("PersonId")]
-    public virtual Player Player { get; set; }
+    public virtual Player? Player { get; set; }
     
     [ForeignKey("TeamId")]
-    public virtual Team Team { get; set; }
+    public virtual Team? Team { get; set; }
+    
+    //for SQL generated attributes(like AVG, SUM, etc.)
+     //used for SQL generated attributes(like AVG, SUM, etc.)
+    public double? DoubleAttribute { get; set; }
+    public int? IntAttribute { get; set; }
+    public string? StringAttribute { get; set; }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public int? Year { get; set; }
+    public double? AvgAttribute { get; set; }
 }

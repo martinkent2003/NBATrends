@@ -122,7 +122,7 @@ namespace API.Controllers
 
             // SQL query to calculate yearly averages
             var query = 
-                $"SELECT EXTRACT(YEAR FROM GameDate) AS Year, AVG(attribute) AS AvgAttribute " +
+                $"SELECT EXTRACT(YEAR FROM GameDate) AS Year, ROUND(AVG(attribute),2) AS AvgAttribute " +
                 $"FROM (" +
                 $"  SELECT {homeAttr} AS attribute, GameDate " +
                 $"  FROM Game " +
@@ -197,7 +197,7 @@ namespace API.Controllers
             var playoffGames = _context.Games.FromSqlRaw("SELECT * FROM Game g WHERE g.SeasonType = 'Playoffs';").ToList();
             return playoffGames;
         }
-        private static dynamic GetAttributeValue(Game game, string attribute)
+        private static dynamic? GetAttributeValue(Game game, string attribute)
         {
             switch (attribute)
             {
