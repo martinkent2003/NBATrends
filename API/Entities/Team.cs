@@ -18,4 +18,4 @@ public class Team
     public string? Instagram { get; set; }
     public string? Twitter { get; set; }    
 }
-
+ 

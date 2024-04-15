@@ -115,7 +115,7 @@ namespace API.Controllers
 
         //aggregate function for AVG() of an attribute
         [HttpGet("yearlyAverage/attribute/{attribute}/team/{team}/fromYear/{fromYear}/toYear/{toYear}")]
-        public ActionResult<IEnumerable<GraphPoint>> GetAverageAttributeForAllGames(string attribute, int team, string fromYear, string toYear)
+        public ActionResult<IEnumerable<DateAndAttribute>> GetAverageAttributeForAllGames(string attribute, int team, string fromYear, string toYear)
         {
             var homeAttr = "H" + attribute;
             var awayAttr = "A" + attribute;
