@@ -31,7 +31,7 @@ export class ParamsComponent implements OnInit{
   queryOptions: String[] = [
     'Compare First Overall Picks',
     'Compare League Scoring Per Decade in Regular Season and Playoffs',
-    '( Complex Query 3 )',
+    'Compare Stats By Position',
     '( Complex Query 4 )',
     '( Complex Query 5 )',
     'Custom Query',

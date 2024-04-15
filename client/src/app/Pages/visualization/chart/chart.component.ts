@@ -6,6 +6,7 @@ import { DataPoint, LineData } from '../../../Models/dataPoint';
 import { QueryParams } from '../../../Models/queryParams';
 import { Observable } from 'rxjs';
 import { TeamsPlayersService } from '../../../Services/teams-players.service';
+import { query } from 'express';
 
 @Component({
   selector: 'app-chart',
@@ -77,16 +78,17 @@ export class ChartComponent implements OnInit, AfterViewInit{
 
   handleQuery(queryParams: QueryParams){
     this.chartOptions.data = []
+    let queryToUse: Number = this.queryNumber;
 
     console.log(queryParams.queryOption)
-    if (this.queryNumber != -1) {
-      queryParams.queryOption = this.queryNumber
+    if (this.queryNumber == -1) {
+      queryToUse = queryParams.queryOption
     }
 
     console.log(queryParams.queryOption)
 
     // Custom Query: TEAM Yearly Data
-    switch (queryParams.queryOption) {
+    switch (queryToUse) {
       case 0:
         this.chartOptions.axisY.title = queryParams.attributeOptionDisplay as string
         this.queryService.getComplexQuery0(queryParams.attributeOptions.at(queryParams.attributeSelected)!).subscribe({
@@ -145,6 +147,31 @@ export class ChartComponent implements OnInit, AfterViewInit{
         })
         break;
 
+      case 2:
+        this.chartOptions.axisY.title = queryParams.attributeOptionDisplay as string
+        let positions = ['Guard', 'Forward', 'Center'];
+        for (let position of positions) {
+          this.queryService.getComplexQuery2(queryParams.attributeOptions.at(queryParams.attributeSelected)!, position).subscribe({
+            next: res => {
+              var dataPointArray: DataPoint[] = []
+              for (let stat of res) {
+                let dp: DataPoint = {x: stat.year, y: stat.avgAttribute, label: String(stat.year)}
+                dataPointArray.push(dp)
+              }
+              var positionLineData: LineData = {
+                type: "line",
+                showInLegend: true,
+                name: position,
+                dataPoints: dataPointArray
+              }
+              this.chartOptions.data.push(positionLineData as never)
+              if (this.chartRendered) this.chart.render()
+            },
+            error: err => console.log(err)
+          })
+        }
+        break;
+
       case 5:
         this.handleCustomQuery(queryParams)
         break;
@@ -156,6 +183,7 @@ export class ChartComponent implements OnInit, AfterViewInit{
   }
 
   handleCustomQuery (queryParams: QueryParams) {
+    //Custom Query: TEAM Yearly Data
     if (queryParams.selectTeam) {
       this.chartOptions.axisY.title = queryParams.attributeOptionDisplay as string
       for (let teamName of queryParams.teamsSelected) {

@@ -14,7 +14,8 @@ export class QueryService {
 
   presetComplexQueries: string[] = [
     this.baseUrl + 'drafthistories/firstOverallPicksCarreerAverage/attribute/',
-    this.baseUrl + 'games/AvgPointsPerDecadeSeasonal'
+    this.baseUrl + 'games/AvgPointsPerDecadeSeasonal',
+    this.baseUrl + 'PlayerBoxScore/yearlyAveragePerPositionStats/attribute/'
   ]
 
   constructor(private http: HttpClient) { }
@@ -25,6 +26,10 @@ export class QueryService {
 
   getComplexQuery1() {
     return this.http.get<PtsPerDecadeSeasonal[]>(this.presetComplexQueries[1])
+  }
+
+  getComplexQuery2(attribute: String, position: String) {
+    return this.http.get<SeasonAverageAttribute[]>(this.presetComplexQueries[2] + attribute + '/position/' + position)
   }
 
   getTeamStatYearly(teamId: Number, stat: String, fromYear: Number, toYear: Number) : Observable<SeasonAverageAttribute[]> {

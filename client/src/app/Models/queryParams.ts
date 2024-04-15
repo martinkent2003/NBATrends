@@ -21,7 +21,7 @@ export class QueryParams {
     'FGThreesAttempted',
     'FGThreePercentage',
     'FreeThrowsMade',
-    'FreeThrowsAttemped',
+    'FreeThrowsAttempted',
     'FreeThrowPercentage',
     'OffensiveRebounds',
     'DefensiveRebounds',
