@@ -88,10 +88,46 @@ export class ChartComponent implements OnInit, AfterViewInit{
 
   handleQuery(queryParams: QueryParams){
     this.chartOptions.data = []
+
+    // Custom Query: TEAM Yearly Data
+    switch (queryParams.queryOption) {
+      case 0:
+        this.chartOptions.axisY.title = queryParams.attributeOptionDisplay as string
+        this.queryService.getComplexQuery0(queryParams.attributeOptions.at(queryParams.attributeSelected)!).subscribe({
+          next: res => {
+            var dataPointArray: DataPoint[] = []
+            for (let data of res) {
+              let dp: DataPoint = {x: data.seasonId, y: data.avgAttribute, label: String(data.seasonId) + data.firstName + ' ' + data.lastName}
+              dataPointArray.push(dp)
+            }
+            var lineData: LineData = {
+              type: "line",
+              showInLegend: true,
+              name: queryParams.attributeOptionDisplay,
+              dataPoints: dataPointArray
+            }
+            this.chartOptions.data.push(lineData as never)
+            if (this.chartRendered) this.chart.render()
+          },
+          error: err => console.log(err)
+        })
+        break;
+
+      case 5:
+        this.handleCustomQuery(queryParams)
+        break;
+
+      default:
+        console.log('Nothing')
+    }
+    
+  }
+
+  handleCustomQuery (queryParams: QueryParams) {
     if (queryParams.selectTeam) {
       this.chartOptions.axisY.title = queryParams.attributeOptionDisplay as string
       for (let teamName of queryParams.teamsSelected) {
-        this.queryService.getTeamStatYearly(this.teamsPlayersService.teamNameToId.get(teamName)!, queryParams.attributeOptions[queryParams.attributeSelected as number], queryParams.fromYear, queryParams.toYear).subscribe({
+        this.queryService.getTeamStatYearly(this.teamsPlayersService.teamNameToId.get(teamName)!, queryParams.attributeOptions[queryParams.attributeSelected], queryParams.fromYear, queryParams.toYear).subscribe({
           next: res => {
             var dataPointArray: DataPoint[] = []
             for (let stat of res) {
@@ -112,9 +148,28 @@ export class ChartComponent implements OnInit, AfterViewInit{
       }
     }
 
+    // Custon Query: PLAYER Yearly Data
     else if (queryParams.selectPlayer) {
-      for (let player of queryParams.playersSelected) {
-        // get player stat yearly
+      this.chartOptions.axisY.title = queryParams.attributeOptionDisplay as string
+      for (let playerName of queryParams.playersSelected) {
+        this.queryService.getPlayerStatYearly(this.teamsPlayersService.playerNameToId.get(playerName)!, queryParams.attributeOptions[queryParams.attributeSelected]).subscribe({
+          next: res => {
+            var dataPointArray: DataPoint[] = []
+            for (let stat of res) {
+              let dp: DataPoint = {x: stat.year, y: stat.avgAttribute, label: String(stat.year)}
+              dataPointArray.push(dp)
+            }
+            var teamLineData: LineData = {
+              type: "line",
+              showInLegend: true,
+              name: playerName,
+              dataPoints: dataPointArray
+            }
+            this.chartOptions.data.push(teamLineData as never)
+            if (this.chartRendered) this.chart.render()
+          },
+          error: err => console.log(err)
+        })  
       }
     }
   }

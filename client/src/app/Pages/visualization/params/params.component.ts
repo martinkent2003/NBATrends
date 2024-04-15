@@ -29,11 +29,11 @@ export class ParamsComponent implements OnInit{
   playerFilter = new FormControl('', { nonNullable: true })
 
   queryOptions: String[] = [
-    'Complex Query 1',
-    'Complex Query 2',
-    'Complex Query 3',
-    'Complex Query 4',
-    'Complex Query 5',
+    'Compare First Overall Picks',
+    '( Complex Query 2 )',
+    '( Complex Query 3 )',
+    '( Complex Query 4 )',
+    '( Complex Query 5 )',
     'Custom Query',
   ]
 
