@@ -32,53 +32,53 @@ namespace API.Controllers
         }
 
 
-        //get all games for a specific attribute in a team for a give time span
-
 
         [HttpGet("homeGames/attribute/{attribute}/team/{team}/fromYear/{fromYear}/toYear/{toYear}")]
         public ActionResult<IEnumerable<DateAndAttribute>> GetAttributeForHomeGames(string attribute, int team, string fromYear, string toYear){
-            //get game stat for a team for each game in date rage
-            
+            var avgAttribute = "H" + attribute;
+
             var query = 
-                $"SELECT * "+
+                $"SELECT EXTRACT(YEAR FROM GameDate) AS Year, ROUND(AVG({avgAttribute}),2) AS AvgAttribute "+
                 "FROM Game "+
                 $"WHERE HTeamId = {team} "+
-                $"AND GameDate BETWEEN TO_DATE({fromYear}, 'YYYY') AND TO_DATE({toYear}, 'YYYY')"+
-                "ORDER BY GameDate ASC";
-            //help me here pls 
-            var seasonAverage = _context
-                .Games
+                $"AND GameDate BETWEEN TO_DATE({fromYear}, 'YYYY') AND TO_DATE({toYear}, 'YYYY') "+
+                "GROUP BY EXTRACT(YEAR FROM GameDate) " +
+                "ORDER BY Year ASC ";
+
+            var yearlyAverages = _context
+                .QueryResultAttributes
                 .FromSqlRaw(query)
-                .Select(daa => new DateAndAttribute{
-                    GameAttribute = GetAttributeValue(daa, attribute),
-                    GameDate = daa.GameDate
+                .Select(daa => new {
+                    GameAttribute = daa.AvgAttribute,
+                    GameDate = daa.Year
                 })
                 .ToList();
             
-            return Ok(seasonAverage);
+            return Ok(yearlyAverages);
         }
 
         [HttpGet("awayGames/attribute/{attribute}/team/{team}/fromYear/{fromYear}/toYear/{toYear}")]
         public ActionResult<IEnumerable<DateAndAttribute>> GetAttributeForAwayGames(string attribute, int team, string fromYear, string toYear){
-            //get game stat for a team for each game in date rage
-            
+            var avgAttribute = "A" + attribute;
+
             var query = 
-                $"SELECT * "+
+                $"SELECT EXTRACT(YEAR FROM GameDate) AS Year, ROUND(AVG({avgAttribute}),2) AS AvgAttribute "+
                 "FROM Game "+
                 $"WHERE ATeamId = {team} "+
-                $"AND GameDate BETWEEN TO_DATE({fromYear}, 'YYYY') AND TO_DATE({toYear}, 'YYYY')"+
-                "ORDER BY GameDate ASC";
-            //help me here pls 
-            var seasonAverage = _context
-                .Games
+                $"AND GameDate BETWEEN TO_DATE({fromYear}, 'YYYY') AND TO_DATE({toYear}, 'YYYY') "+
+                "GROUP BY EXTRACT(YEAR FROM GameDate) " +
+                "ORDER BY Year ASC ";
+
+            var yearlyAverages = _context
+                .QueryResultAttributes
                 .FromSqlRaw(query)
-                .Select(daa => new DateAndAttribute{
-                    GameAttribute = GetAttributeValue(daa, attribute),
-                    GameDate = daa.GameDate
+                .Select(daa => new {
+                    GameAttribute = daa.AvgAttribute,
+                    GameDate = daa.Year
                 })
                 .ToList();
             
-            return Ok(seasonAverage);
+            return Ok(yearlyAverages);
         }
 
         [HttpGet("allGames/attribute/{attribute}/team/{team}/fromYear/{fromYear}/toYear/{toYear}")]
