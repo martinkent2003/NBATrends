@@ -48,9 +48,9 @@ namespace API.Controllers
             var yearlyAverages = _context
                 .QueryResultAttributes
                 .FromSqlRaw(query)
-                .Select(daa => new {
-                    GameAttribute = daa.AvgAttribute,
-                    GameDate = daa.Year
+                .Select(daa => new{
+                    daa.Year,
+                    daa.AvgAttribute
                 })
                 .ToList();
             
@@ -72,9 +72,9 @@ namespace API.Controllers
             var yearlyAverages = _context
                 .QueryResultAttributes
                 .FromSqlRaw(query)
-                .Select(daa => new {
-                    GameAttribute = daa.AvgAttribute,
-                    GameDate = daa.Year
+                .Select(daa => new{
+                    daa.Year,
+                    daa.AvgAttribute
                 })
                 .ToList();
             
