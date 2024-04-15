@@ -146,10 +146,12 @@ namespace API.Controllers
             return Ok(yearlyAverages);
         }
 
-        [HttpGet("AvgPointsPerDecadeSeasonal")]
-        public ActionResult<IEnumerable<Game>> GetPtsAvgBySeasonPerDecade(){
+        [HttpGet("AvgAttributePerDecadeSeasonal/attribute/{attribute}")]
+        public ActionResult<IEnumerable<Game>> GetPtsAvgBySeasonPerDecade(string attribute){
+            var homeAttr = "H" + attribute;
+            var awayAttr = "A" + attribute;
             var query = 
-                        "SELECT Decade AS StringAttribute2, Season_Type AS StringAttribute, ROUND(AVG((Home_Points + Away_Points) / 2),2) AS AvgAttribute "+
+                        "SELECT Decade AS StringAttribute2, Season_Type AS StringAttribute, ROUND(AVG((Home_Attribute + Away_Attribute) / 2),2) AS AvgAttribute "+
                         "FROM ("+
                             "SELECT "+
                                 "CASE "+
@@ -167,8 +169,8 @@ namespace API.Controllers
                                     "WHEN g.SEASONTYPE = 'Regular Season' THEN 'Regular Season' "+
                                     "ELSE 'Playoffs' "+
                                 "END AS Season_Type, "+
-                                "g.HPOINTS AS Home_Points, "+
-                                "g.APOINTS AS Away_Points "+
+                                $"g.{homeAttr} AS Home_Attribute, "+
+                                $"g.{awayAttr} AS Away_Attribute "+
                             "FROM "+
                                 "Game g "+
                         ") "+
