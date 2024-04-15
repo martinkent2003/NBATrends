@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
-import { CanvasJSAngularChartsModule, CanvasJSChart } from '@canvasjs/angular-charts';
+import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { ParamsComponent } from '../params/params.component';
 import { QueryService } from '../../../Services/query.service';
 import { DataPoint, LineData } from '../../../Models/dataPoint';
@@ -59,21 +59,11 @@ export class ChartComponent implements OnInit, AfterViewInit{
     this.queryService.mainQueryParams$?.subscribe({
       next: (params: QueryParams) => {
         this.mainQueryParams = params
-        this.getData()
+        this.handleQuery(this.mainQueryParams)
         if (this.chartRendered) this.chart.render()
       }
     })
-	}
-
-	getData() {
-    if (this.queryNumber == -1) {
-      this.handleQuery(this.mainQueryParams)
-    }
-    else {
-      const newChartData: LineData[] = []
-		  this.chartOptions.data = newChartData as never[];
-    }
-
+    this.mainQueryParams.queryOption = this.queryNumber
 	}
 
   getChartInstance(chart: object) {
@@ -81,13 +71,19 @@ export class ChartComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit() {
-    this.getData();
     this.chart.render();
     this.chartRendered = true;
   }
 
   handleQuery(queryParams: QueryParams){
     this.chartOptions.data = []
+
+    console.log(queryParams.queryOption)
+    if (this.queryNumber != -1) {
+      queryParams.queryOption = this.queryNumber
+    }
+
+    console.log(queryParams.queryOption)
 
     // Custom Query: TEAM Yearly Data
     switch (queryParams.queryOption) {
@@ -107,6 +103,42 @@ export class ChartComponent implements OnInit, AfterViewInit{
               dataPoints: dataPointArray
             }
             this.chartOptions.data.push(lineData as never)
+            if (this.chartRendered) this.chart.render()
+          },
+          error: err => console.log(err)
+        })
+        break;
+
+      case 1:
+        this.chartOptions.axisY.title = 'Points'
+        this.queryService.getComplexQuery1().subscribe({
+          next: res => {
+            var dataPointArrayReg: DataPoint[] = []
+            var dataPointArrayPlayoff: DataPoint[] = []
+            for (let data of res) {
+              if (data.stringAttribute == 'Regular Season') {
+                let dp: DataPoint = {x: +data.stringAttribute2.substring(0, 4), y: data.avgAttribute, label: data.stringAttribute2}
+                dataPointArrayReg.push(dp)
+              }
+              else {
+                let dp: DataPoint = {x: +data.stringAttribute2.substring(0, 4), y: data.avgAttribute, label: data.stringAttribute2}
+                dataPointArrayPlayoff.push(dp)
+              }
+            }
+            var lineDataReg: LineData = {
+              type: "line",
+              showInLegend: true,
+              name: "Regular Season",
+              dataPoints: dataPointArrayReg
+            }
+            var lineDataPlayoff: LineData = {
+              type: "line",
+              showInLegend: true,
+              name: "Playoffs",
+              dataPoints: dataPointArrayPlayoff
+            }
+            this.chartOptions.data.push(lineDataReg as never)
+            this.chartOptions.data.push(lineDataPlayoff as never)
             if (this.chartRendered) this.chart.render()
           },
           error: err => console.log(err)
