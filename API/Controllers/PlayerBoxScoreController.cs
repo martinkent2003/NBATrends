@@ -41,5 +41,53 @@ namespace API.Controllers
                 .ToList();
             return Ok(yearlyAveragePerPositionStats);
         }
+        [HttpGet("AvgAttributeByHeight/attribute/{attribute}")]
+        public ActionResult<IEnumerable<CommonPlayerInfo>> GetAvgAttributeByHeight(string attribute){
+            var query = $"SELECT Heights AS StringAttribute, Decade AS StringAttribute2, AVG({attribute}) AS AvgAttribute "+
+                        "FROM ( "+
+                            "SELECT "+
+                                "CASE "+
+                                    "WHEN cpi.HEIGHT < 72 THEN 'Under 6 feet' "+
+                                    "WHEN cpi.HEIGHT BETWEEN 72 AND 77 THEN '6-6.5 ft' "+
+                                    "WHEN cpi.HEIGHT BETWEEN 78 AND 83 THEN '6.5-7 ft' "+
+                                    "WHEN cpi.HEIGHT BETWEEN 84 AND 89 THEN '7-7.5 ft' "+
+                                    "ELSE '7.5+ ft' "+
+                                "END AS Heights, "+
+                                "CASE "+
+                                    "WHEN EXTRACT(YEAR FROM g.GAMEDATE) BETWEEN 1940 AND 1949 THEN '1940s' "+
+                                    "WHEN EXTRACT(YEAR FROM g.GAMEDATE) BETWEEN 1950 AND 1959 THEN '1950s' "+
+                                    "WHEN EXTRACT(YEAR FROM g.GAMEDATE) BETWEEN 1960 AND 1969 THEN '1960s' "+
+                                    "WHEN EXTRACT(YEAR FROM g.GAMEDATE) BETWEEN 1970 AND 1979 THEN '1970s' "+
+                                    "WHEN EXTRACT(YEAR FROM g.GAMEDATE) BETWEEN 1980 AND 1989 THEN '1980s' "+
+                                    "WHEN EXTRACT(YEAR FROM g.GAMEDATE) BETWEEN 1990 AND 1999 THEN '1990s' "+
+                                    "WHEN EXTRACT(YEAR FROM g.GAMEDATE) BETWEEN 2000 AND 2009 THEN '2000s' "+
+                                    "WHEN EXTRACT(YEAR FROM g.GAMEDATE) BETWEEN 2010 AND 2019 THEN '2010s' "+
+                                    "ELSE '2020s' "+
+                                "END AS Decade, "+
+                                $"pb.{attribute} "+
+                            "FROM "+
+                                "PlayerBoxScore pb "+
+                            "JOIN "+
+                                "CommonPlayerInfo cpi ON pb.PLAYERID = cpi.PERSONID "+
+                            "JOIN "+
+                                "Game g ON pb.GAMEID = g.GAMEID "+
+                        ") HeightGroups "+
+                        "GROUP BY "+
+                            "Heights, Decade "+
+                        "ORDER BY "+
+                            "Decade, Heights";
+            var AvgAttrByHeight = _context
+                .QueryResultAttributes
+                .FromSqlRaw(query)
+                .Select(r=>new{
+                    r.StringAttribute,
+                    r.StringAttribute2,
+                    r.AvgAttribute
+                })
+                .ToList();
+
+            return Ok(AvgAttrByHeight);
+        }
+
     }
 }

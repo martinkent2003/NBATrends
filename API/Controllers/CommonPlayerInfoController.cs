@@ -25,5 +25,9 @@ namespace API.Controllers
                               .ToList();
             return Ok(playerInfo);
         }
+
+
+
+        
     }
 }
