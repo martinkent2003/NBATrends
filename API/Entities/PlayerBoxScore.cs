@@ -1,6 +1,4 @@
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Entities
 {
@@ -27,7 +25,7 @@ namespace API.Entities
         
         public int? FgThreesAttempted { get; set; }
         
-        public double? FgThreesPercentage { get; set; }
+        public double? FgThreePercentage { get; set; }
         
         public int? FreeThrowsMade { get; set; }
         

@@ -27,7 +27,6 @@ public class TeamsController : ControllerBase
     [HttpGet("attribute/{attribute}")]
     public ActionResult<IEnumerable<string>> GetTeamAttribute(string attribute)
     {
-        // List of valid column names to ensure the query is safe from SQL injection
         var validColumns = new HashSet<string> {"TeamId",
                                                 "FullName",
                                                 "Abbreviation",
@@ -35,7 +34,7 @@ public class TeamsController : ControllerBase
                                                 "YearFounded",
                                                 "Facebook",
                                                 "Instagram",
-                                                "Twitter" }; // Add actual valid column names here
+                                                "Twitter" };
 
         if (!validColumns.Contains(attribute))
         {
@@ -45,7 +44,7 @@ public class TeamsController : ControllerBase
         var query = $"SELECT {attribute} FROM Team";
         var teamAttributes = _context.Teams
             .FromSqlRaw(query)
-            .Select(t => EF.Property<string>(t, attribute)) // Dynamically access the property
+            .Select(t => EF.Property<string>(t, attribute)) 
             .ToList();
         return Ok(teamAttributes);
     }

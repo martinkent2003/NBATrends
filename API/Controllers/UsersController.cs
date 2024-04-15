@@ -25,7 +25,7 @@ public class UsersController : ControllerBase
     }
     
     [HttpGet("{id}")] // /api/users/3
-    public ActionResult<AppUser> GetUser(int id)
+    public ActionResult<AppUser?> GetUser(int id)
     {
         var user = _context.Users.FromSql($"SELECT * FROM USERS WHERE \"Id\" = {id}").FirstOrDefault();
         return user;
