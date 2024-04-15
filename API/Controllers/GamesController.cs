@@ -232,10 +232,10 @@ namespace API.Controllers
                     return game.HFreeThrowsMade;
                 case "AFreeThrowsMade":
                     return game.AFreeThrowsMade;
-                case "HFreeThrowsAttemped":
-                    return game.HFreeThrowsAttemped;
-                case "AFreeThrowsAttemped":
-                    return game.AFreeThrowsAttemped;
+                case "HFreeThrowsAttempted":
+                    return game.HFreeThrowsAttempted;
+                case "AFreeThrowsAttempted":
+                    return game.AFreeThrowsAttempted;
                 case "HFreeThrowPercentage":
                     return game.HFreeThrowPercentage;
                 case "AFreeThrowPercentage":
