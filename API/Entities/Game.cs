@@ -34,7 +34,7 @@ namespace API.Entities
         
         public int? HFreeThrowsMade { get; set; }
         
-        public int? HFreeThrowsAttemped { get; set; }
+        public int? HFreeThrowsAttempted { get; set; }
         
         public double? HFreeThrowPercentage { get; set; }
         
@@ -77,7 +77,7 @@ namespace API.Entities
         
         public int? AFreeThrowsMade { get; set; }
         
-        public int? AFreeThrowsAttemped { get; set; }
+        public int? AFreeThrowsAttempted { get; set; }
         
         public double? AFreeThrowPercentage { get; set; }
         
