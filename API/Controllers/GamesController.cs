@@ -88,13 +88,13 @@ namespace API.Controllers
             var awayAttr = "A" + attribute;
 
             var query = 
-                "SELECT attribute, GameDate FROM ("+
-                $"SELECT {homeAttr} AS attribute, GameDate " +
+                "SELECT DoubleAttribute, GameDate FROM ("+
+                $"SELECT {homeAttr} AS DoubleAttribute, GameDate " +
                 "FROM Game " +
                 $"WHERE HTeamId = {team} " +
                 $"AND GameDate BETWEEN TO_DATE({fromYear}, 'YYYY') AND TO_DATE({toYear}, 'YYYY')"+
                 "UNION " +
-                $"SELECT {awayAttr} AS attribute, GameDate " +
+                $"SELECT {awayAttr} AS DoubleAttribute, GameDate " +
                 "FROM Game " +
                 $"WHERE ATeamId = {team} " +
                 $"AND GameDate BETWEEN TO_DATE({fromYear}, 'YYYY') AND TO_DATE({toYear}, 'YYYY')"+
@@ -102,10 +102,10 @@ namespace API.Controllers
 
 
             var seasonAverage = _context
-                .Games
+                .QueryResultAttributes
                 .FromSqlRaw(query)
                 .Select(daa => new{
-                    daa.DoubleAttribute, // Access the aliased attribute
+                    daa.DoubleAttribute, 
                     daa.GameDate
                 })
                 .ToList();
@@ -120,7 +120,6 @@ namespace API.Controllers
             var homeAttr = "H" + attribute;
             var awayAttr = "A" + attribute;
 
-            // SQL query to calculate yearly averages
             var query = 
                 $"SELECT EXTRACT(YEAR FROM GameDate) AS Year, ROUND(AVG(attribute),2) AS AvgAttribute " +
                 $"FROM (" +
@@ -137,7 +136,7 @@ namespace API.Controllers
 
             
             var yearlyAverages = _context
-                .Games
+                .QueryResultAttributes
                 .FromSqlRaw(query).
                 Select(daa => new{
                     daa.Year,
@@ -150,7 +149,7 @@ namespace API.Controllers
         [HttpGet("AvgPointsPerDecadeSeasonal")]
         public ActionResult<IEnumerable<Game>> GetPtsAvgBySeasonPerDecade(){
             var query = 
-                        "SELECT Decade AS StringAttribute2, Season_Type AS StringAttribute, AVG((Home_Points + Away_Points) / 2) AS AvgAttribute "+
+                        "SELECT Decade AS StringAttribute2, Season_Type AS StringAttribute, ROUND(AVG((Home_Points + Away_Points) / 2),2) AS AvgAttribute "+
                         "FROM ("+
                             "SELECT "+
                                 "CASE "+
@@ -181,7 +180,7 @@ namespace API.Controllers
                             "Season_Type ";
             
             var SeasonalAvgs = _context
-                .Games
+                .QueryResultAttributes
                 .FromSqlRaw(query)
                 .Select(daa => new {
                     daa.StringAttribute2,

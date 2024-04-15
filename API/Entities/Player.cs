@@ -1,5 +1,7 @@
 
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 
 namespace API.Entities;
 
@@ -15,10 +17,4 @@ public class Player
     [Required]
     public int IsActive { get; set; }
 
-     //used for SQL generated attributes(like AVG, SUM, etc.)
-    public double? DoubleAttribute { get; set; }
-    public int? IntAttribute { get; set; }
-    public string? StringAttribute { get; set; }
-    public int? Year { get; set; }
-    public double? AvgAttribute { get; set; }
 }

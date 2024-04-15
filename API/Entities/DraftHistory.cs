@@ -25,13 +25,4 @@ public class DraftHistory
     [ForeignKey("TeamId")]
     public virtual Team? Team { get; set; }
     
-    //for SQL generated attributes(like AVG, SUM, etc.)
-     //used for SQL generated attributes(like AVG, SUM, etc.)
-    public double? DoubleAttribute { get; set; }
-    public int? IntAttribute { get; set; }
-    public string? StringAttribute { get; set; }
-    public string? FirstName { get; set; }
-    public string? LastName { get; set; }
-    public int? Year { get; set; }
-    public double? AvgAttribute { get; set; }
 }

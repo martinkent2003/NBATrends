@@ -44,7 +44,7 @@ public class PlayersController : ControllerBase
                     "ORDER BY EXTRACT (YEAR FROM g.GameDate) ";   
 
         var yearlyAverages = _context
-            .Players
+            .QueryResultAttributes
             .FromSqlRaw(query)
             .Select(g => new { g.Year, g.AvgAttribute })
             .ToList();

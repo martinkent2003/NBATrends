@@ -34,7 +34,7 @@ namespace API.Controllers
                         "ORDER BY SeasonId DESC " ;
             
             var firstOverallPicksAndAttribute = _context
-                .DraftHistories
+                .QueryResultAttributes
                 .FromSqlRaw(query)
                 .Select(g => new { g.SeasonId, g.FirstName, g.LastName, g.AvgAttribute })
                 .ToList();

@@ -18,5 +18,12 @@ public class DataContext : DbContext
     public DbSet<DraftHistory> DraftHistories { get; set; }
     public DbSet<Game> Games { get; set; }
     public DbSet<PlayerBoxScore> PlayerBoxScores{ get; set;}
+    public DbSet<QueryResultAttributes> QueryResultAttributes { get; set; }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
 
+        // Configure QueryResultAttributes as a keyless entity
+        modelBuilder.Entity<QueryResultAttributes>().HasNoKey();
+    }
 }
