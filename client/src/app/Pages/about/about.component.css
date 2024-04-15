@@ -23,6 +23,7 @@ li {
     margin-right: 0px; 
 }
 
+
 li:not(:last-child)::after {
     content: ",";
     margin-right: 5px; 
@@ -34,4 +35,22 @@ p
     margin-right: auto; 
     max-width: 2000px; 
     text-align: justify; 
+}
+
+.heading {
+    width: 60%; 
+    text-align: center; 
+    margin: 0 auto; 
+  }
+
+.list {
+list-style: none;
+padding: 0; 
+}
+
+.list-item-content {
+text-align: left; 
+margin-left: 0;
+margin-bottom: 0px; 
+width: 100%;
 }
