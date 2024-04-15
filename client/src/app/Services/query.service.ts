@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { QueryParams } from "../Models/queryParams";
 import { BehaviorSubject, Observable } from "rxjs";
 import { SeasonAverageAttribute } from "../Models/DTO/seasonAverageAttribute";
+import { firstPicksAverageAttribute } from "../Models/DTO/firstPicksAverageAttribute";
 
 @Injectable({providedIn: 'root'})
 export class QueryService {
@@ -10,10 +11,22 @@ export class QueryService {
   mainQueryParams: QueryParams = new QueryParams()
   mainQueryParams$: BehaviorSubject<QueryParams> = new BehaviorSubject<QueryParams>(this.mainQueryParams)
 
+  presetComplexQueries: string[] = [
+    this.baseUrl + 'drafthistories/firstOverallPicksCarreerAverage/attribute/'
+  ]
+
   constructor(private http: HttpClient) { }
+
+  getComplexQuery0(attribute: String) {
+    return this.http.get<firstPicksAverageAttribute[]>(this.presetComplexQueries[0] + attribute)
+  }
 
   getTeamStatYearly(teamId: Number, stat: String, fromYear: Number, toYear: Number) : Observable<SeasonAverageAttribute[]> {
     return this.http.get<SeasonAverageAttribute[]>(this.baseUrl + 'games/yearlyAverage/attribute/' + stat + '/team/'+ teamId +'/fromYear/' + fromYear + '/toYear/' + toYear)
+  }
+
+  getPlayerStatYearly(playerId: Number, stat: String) {
+    return this.http.get<SeasonAverageAttribute[]>(this.baseUrl + 'players/yearlyAverages/playerId/' + playerId + '/attribute/' + stat)
   }
 
   updateQueryParams(newParams: QueryParams) {

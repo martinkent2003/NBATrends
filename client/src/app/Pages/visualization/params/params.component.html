@@ -83,7 +83,9 @@
                     }
                 </div>
             </div>
+        </div>
 
+        <div *ngIf="queryParams.queryOption==queryOptions.length - 1 || queryParams.queryOption==0">
             <div class="card mt-3" >
                 <div class="card-header py-2">
                     Graph Options
