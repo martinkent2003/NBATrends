@@ -32,10 +32,10 @@
         <div>
             <button class="btn btn-dark" (click)="getNumberOfTuples()">Get Total Number of Tuples</button> 
         </div>
-        @if (numberOfTuples> 0) {
-            <div class="ms-3 mt-1">
-                {{ numberOfTuples.toLocaleString()}} !
-            </div>
-        }
     </div>
+    @if (numberOfTuples> 0) {
+        <h1 data-shadow="1,369,734" class="ms-3 mt-1" style=" font-size: 100px;">
+            {{ numberOfTuples.toLocaleString()}} !
+        </h1>
+    }
 </div>
