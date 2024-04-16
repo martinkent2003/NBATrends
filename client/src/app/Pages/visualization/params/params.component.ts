@@ -41,7 +41,7 @@ export class ParamsComponent implements OnInit{
 
   attributeOptions: String[] = [
     'Field Goals Made',
-    'Filed Goals Attempted',
+    'Field Goals Attempted',
     'Field Goal Percentage',
     'Three Pointers Made',
     'Three Pointers Attempted',
