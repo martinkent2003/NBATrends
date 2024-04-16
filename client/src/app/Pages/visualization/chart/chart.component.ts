@@ -230,6 +230,60 @@ export class ChartComponent implements OnInit, AfterViewInit{
         })
         break;
 
+      case 4:
+        let positionss = ['Guard', 'Forward', 'Center'];
+        let value = queryParams.statValue
+        if (queryParams.attributeSelected == 2 || queryParams.attributeSelected == 5 || queryParams.attributeSelected == 8) {
+          value = (value as number / 100)
+        }
+        if (queryParams.showAsPercentage) {
+          this.chartOptions.axisY.title = 'Ratio of games with player over ' + queryParams.statValue + ' ' + queryParams.attributeOptionDisplay as string
+          for (let position of positionss) {
+            this.queryService.getComplexQuery4Percentage(queryParams.attributeOptions.at(queryParams.attributeSelected)!, position, value).subscribe({
+              next: res => {
+                var dataPointArray: DataPoint[] = []
+                for (let stat of res) {
+                  let dp: DataPoint = {x: stat.year, y: stat.avgAttribute, label: String(stat.year)}
+                  dataPointArray.push(dp)
+                }
+                var positionLineData: LineData = {
+                  type: "line",
+                  showInLegend: true,
+                  name: position,
+                  dataPoints: dataPointArray
+                }
+                this.chartOptions.data.push(positionLineData as never)
+                if (this.chartRendered) this.chart.render()
+              },
+              error: err => console.log(err)
+            })
+          }
+        }
+        else {
+          this.chartOptions.axisY.title = 'Times a player had over ' + queryParams.statValue + ' ' + queryParams.attributeOptionDisplay as string
+          for (let position of positionss) {
+            this.queryService.getComplexQuery4(queryParams.attributeOptions.at(queryParams.attributeSelected)!, position, value).subscribe({
+              next: res => {
+                var dataPointArray: DataPoint[] = []
+                for (let stat of res) {
+                  let dp: DataPoint = {x: stat.year, y: stat.avgAttribute, label: String(stat.year)}
+                  dataPointArray.push(dp)
+                }
+                var positionLineData: LineData = {
+                  type: "line",
+                  showInLegend: true,
+                  name: position,
+                  dataPoints: dataPointArray
+                }
+                this.chartOptions.data.push(positionLineData as never)
+                if (this.chartRendered) this.chart.render()
+              },
+              error: err => console.log(err)
+            })
+          }
+        }
+        break;
+
       case 5:
         this.handleCustomQuery(queryParams)
         break;

@@ -86,7 +86,7 @@
         </div>
 
         <div *ngIf="queryParams.queryOption==queryOptions.length - 1 || queryParams.queryOption==0 || queryParams.queryOption==1
-            || queryParams.queryOption==2 || queryParams.queryOption==3">
+            || queryParams.queryOption==2 || queryParams.queryOption==3 || queryParams.queryOption==4">
             <div class="card mt-3" >
                 <div class="card-header py-2">
                     Graph Options
@@ -134,6 +134,26 @@
                         </div>
                     </div>
 
+                    <!-- Only for choosing OVER STAT -->
+                    <div *ngIf="queryParams.queryOption==4">
+                        <div class="row my-1 me-1">
+                            <label class="col">Stat Over:</label>
+                            <select class="col py-0 my-1 form-control" [(ngModel)]="queryParams.statValue">
+                                <option *ngFor="let value of statValues" [value]="value">{{ value }}</option>
+                            </select>
+                        </div>
+
+                        <div class="row my-1 me-1">
+                            <div class="col">
+                                <input
+                                class="col form-check-input me-1"
+                                type="checkbox"
+                                [(ngModel)]="queryParams.showAsPercentage"
+                                aria-label="...">
+                                Show as ratio of all games
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

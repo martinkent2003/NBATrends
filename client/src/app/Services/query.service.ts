@@ -16,7 +16,9 @@ export class QueryService {
     this.baseUrl + 'drafthistories/firstOverallPicksCarreerAverage/attribute/',
     this.baseUrl + 'games/AvgAttributePerDecadeSeasonal/attribute/',
     this.baseUrl + 'PlayerBoxScore/yearlyAveragePerPositionStats/attribute/',
-    this.baseUrl + 'PlayerBoxScore/AvgAttributeByHeight/attribute/'
+    this.baseUrl + 'PlayerBoxScore/AvgAttributeByHeight/attribute/',
+    this.baseUrl + 'games/yearlyOverStatByPosition/attribute/',
+    this.baseUrl + 'games/yearlyOverStatByPositionRatio/attribute/'
   ]
 
   constructor(private http: HttpClient) { }
@@ -35,6 +37,14 @@ export class QueryService {
 
   getComplexQuery3(attribute: String){
     return this.http.get<PtsPerDecadeSeasonal[]>(this.presetComplexQueries[3] + attribute)
+  }
+
+  getComplexQuery4(attribute: String, position: String, value: Number) {
+    return this.http.get<SeasonAverageAttribute[]>(this.presetComplexQueries[4] + attribute + '/statistic/' + value + '/position/' + position)
+  }
+
+  getComplexQuery4Percentage(attribute: String, position: String, value: Number) {
+    return this.http.get<SeasonAverageAttribute[]>(this.presetComplexQueries[5] + attribute + '/statistic/' + value + '/position/' + position)
   }
 
   getTeamStatYearly(teamId: Number, stat: String, fromYear: Number, toYear: Number) : Observable<SeasonAverageAttribute[]> {

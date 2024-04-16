@@ -6,6 +6,9 @@ export class QueryParams {
   fromYear: Number
   toYear: Number
 
+  statValue: Number
+  showAsPercentage: Boolean
+
   selectTeam: Boolean
   teamsSelected: String[]
   showHomeAway: Boolean
@@ -42,6 +45,8 @@ export class QueryParams {
     this.attributeOptionDisplay = 'Points'
     this.fromYear = 1985
     this.toYear = 2023
+    this.statValue = 20
+    this.showAsPercentage = false
     this.selectTeam = true
     this.teamsSelected = []
     this.showHomeAway = false

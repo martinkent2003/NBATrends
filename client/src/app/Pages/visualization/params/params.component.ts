@@ -29,13 +29,14 @@ export class ParamsComponent implements OnInit{
   playerFilter = new FormControl('', { nonNullable: true })
 
   years: Number[] = []
+  statValues: Number[] = []
 
   queryOptions: String[] = [
     'Compare First Overall Picks',
     'League Averages Per Decade',
     'Compare Stats By Position',
     'Compare Stats By Height',
-    '( Complex Query 5 )',
+    'Games Over Stat Per Position',
     'Custom Query',
   ]
 
@@ -77,6 +78,10 @@ export class ParamsComponent implements OnInit{
 
     for (let i = 1946; i < 2024; i++) {
       this.years.push(i)
+    }
+
+    for (let i = 0; i < 101; i++) {
+      this.statValues.push(i)
     }
   }
 
