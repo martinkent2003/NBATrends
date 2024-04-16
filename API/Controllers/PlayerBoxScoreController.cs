@@ -89,5 +89,33 @@ namespace API.Controllers
             return Ok(AvgAttrByHeight);
         }
 
+        [HttpGet("TotalTuples")]
+        public ActionResult<IEnumerable<CommonPlayerInfo>> TotalTuples(){
+            var query = "SELECT SUM(TotalRows) AS IntAttribute "+
+                        "FROM ( "+
+                            "SELECT COUNT(*) AS TotalRows FROM Player "+
+                            "UNION ALL "+
+                            "SELECT COUNT(*) AS TotalRows FROM Team "+
+                            "UNION ALL "+
+                            "SELECT COUNT(*) AS TotalRows FROM Game "+
+                            "UNION ALL "+
+                            "SELECT COUNT(*) AS TotalRows FROM PlayerBoxScore "+
+                            "UNION ALL "+
+                            "SELECT COUNT(*) AS TotalRows FROM DraftHistory "+
+                            "UNION ALL "+
+                            "SELECT COUNT(*) AS TotalRows FROM CommonPlayerInfo "+
+                        ") TableCounts";
+            
+            var Tuples = _context
+                .QueryResultAttributes
+                .FromSqlRaw(query)
+                .Select(r=>new{
+                    r.IntAttribute,
+                })
+                .ToList();
+
+            return Ok(Tuples);
+        }
+
     }
 }
