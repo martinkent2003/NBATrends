@@ -28,11 +28,13 @@ export class ParamsComponent implements OnInit{
   players$: Observable<String[]>
   playerFilter = new FormControl('', { nonNullable: true })
 
+  years: Number[] = []
+
   queryOptions: String[] = [
     'Compare First Overall Picks',
-    'Compare League Scoring Per Decade in Regular Season and Playoffs',
+    'League Averages Per Decade',
     'Compare Stats By Position',
-    '( Complex Query 4 )',
+    'Compare Stats By Height',
     '( Complex Query 5 )',
     'Custom Query',
   ]
@@ -72,6 +74,10 @@ export class ParamsComponent implements OnInit{
       startWith(''),
       map((text) => this.filterTeams(text))
     )
+
+    for (let i = 1946; i < 2024; i++) {
+      this.years.push(i)
+    }
   }
 
   ngOnInit(): void {

@@ -8,6 +8,7 @@ export class QueryParams {
 
   selectTeam: Boolean
   teamsSelected: String[]
+  showHomeAway: Boolean
 
   selectPlayer: Boolean
   playersSelected: String[]
@@ -43,6 +44,7 @@ export class QueryParams {
     this.toYear = 2023
     this.selectTeam = true
     this.teamsSelected = []
+    this.showHomeAway = false
     this.selectPlayer = false
     this.playersSelected = []
   }

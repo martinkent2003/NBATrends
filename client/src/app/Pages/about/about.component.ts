@@ -1,8 +1,6 @@
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { QueryService } from '../../Services/query.service';
+import { Component } from '@angular/core';
 import { User } from '../../Models/user';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-about',
@@ -14,7 +12,7 @@ import { CommonModule } from '@angular/common';
 export class AboutComponent{
   users: User[] = []
 
-  constructor(private router: Router, private queryService: QueryService) {}
+  constructor(private router: Router) {}
 
   navigateToQueryPage(): void {
     this.router.navigateByUrl('/form');

@@ -85,7 +85,8 @@
             </div>
         </div>
 
-        <div *ngIf="queryParams.queryOption==queryOptions.length - 1 || queryParams.queryOption==0 || queryParams.queryOption==2">
+        <div *ngIf="queryParams.queryOption==queryOptions.length - 1 || queryParams.queryOption==0 || queryParams.queryOption==1
+            || queryParams.queryOption==2 || queryParams.queryOption==3">
             <div class="card mt-3" >
                 <div class="card-header py-2">
                     Graph Options
@@ -104,6 +105,35 @@
                     <div class="py-2">
                         {{ this.attributeOptions.at(queryParams.attributeSelected) }}
                     </div>
+
+                    <!-- After Here ONLY For Custom TEAMS-->
+                    <div *ngIf="queryParams.queryOption==queryOptions.length - 1 && queryParams.selectTeam">
+                        <div class="row my-1 me-1">
+                            <label class="col">From Year:</label>
+                            <select class="col py-0 my-1 form-control" [(ngModel)]="queryParams.fromYear">
+                                <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+                            </select>
+                        </div>
+
+                        <div class="row my-1 me-1">
+                            <label class="col">To Year:</label>
+                            <select class="col py-0 my-1 form-control" [(ngModel)]="queryParams.toYear">
+                                <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+                            </select>
+                        </div>
+
+                        <div class="row my-1 me-1">
+                            <div class="col">
+                                <input
+                                class="col form-check-input me-1"
+                                type="checkbox"
+                                [(ngModel)]="queryParams.showHomeAway"
+                                aria-label="...">
+                                Include Home/Away
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

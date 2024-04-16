@@ -14,8 +14,9 @@ export class QueryService {
 
   presetComplexQueries: string[] = [
     this.baseUrl + 'drafthistories/firstOverallPicksCarreerAverage/attribute/',
-    this.baseUrl + 'games/AvgPointsPerDecadeSeasonal',
-    this.baseUrl + 'PlayerBoxScore/yearlyAveragePerPositionStats/attribute/'
+    this.baseUrl + 'games/AvgAttributePerDecadeSeasonal/attribute/',
+    this.baseUrl + 'PlayerBoxScore/yearlyAveragePerPositionStats/attribute/',
+    this.baseUrl + 'PlayerBoxScore/AvgAttributeByHeight/attribute/'
   ]
 
   constructor(private http: HttpClient) { }
@@ -24,16 +25,28 @@ export class QueryService {
     return this.http.get<firstPicksAverageAttribute[]>(this.presetComplexQueries[0] + attribute)
   }
 
-  getComplexQuery1() {
-    return this.http.get<PtsPerDecadeSeasonal[]>(this.presetComplexQueries[1])
+  getComplexQuery1(attribute: String) {
+    return this.http.get<PtsPerDecadeSeasonal[]>(this.presetComplexQueries[1] + attribute)
   }
 
   getComplexQuery2(attribute: String, position: String) {
     return this.http.get<SeasonAverageAttribute[]>(this.presetComplexQueries[2] + attribute + '/position/' + position)
   }
 
+  getComplexQuery3(attribute: String){
+    return this.http.get<PtsPerDecadeSeasonal[]>(this.presetComplexQueries[3] + attribute)
+  }
+
   getTeamStatYearly(teamId: Number, stat: String, fromYear: Number, toYear: Number) : Observable<SeasonAverageAttribute[]> {
     return this.http.get<SeasonAverageAttribute[]>(this.baseUrl + 'games/yearlyAverage/attribute/' + stat + '/team/'+ teamId +'/fromYear/' + fromYear + '/toYear/' + toYear)
+  }
+
+  getTeamStatYearlyHome(teamId: Number, stat: String, fromYear: Number, toYear: Number) : Observable<SeasonAverageAttribute[]> {
+    return this.http.get<SeasonAverageAttribute[]>(this.baseUrl + 'games/homeGames/attribute/' + stat + '/team/'+ teamId +'/fromYear/' + fromYear + '/toYear/' + toYear)
+  }
+
+  getTeamStatYearlyAway(teamId: Number, stat: String, fromYear: Number, toYear: Number) : Observable<SeasonAverageAttribute[]> {
+    return this.http.get<SeasonAverageAttribute[]>(this.baseUrl + 'games/awayGames/attribute/' + stat + '/team/'+ teamId +'/fromYear/' + fromYear + '/toYear/' + toYear)
   }
 
   getPlayerStatYearly(playerId: Number, stat: String) {
