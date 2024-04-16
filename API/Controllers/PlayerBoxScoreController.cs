@@ -43,7 +43,7 @@ namespace API.Controllers
         }
         [HttpGet("AvgAttributeByHeight/attribute/{attribute}")]
         public ActionResult<IEnumerable<CommonPlayerInfo>> GetAvgAttributeByHeight(string attribute){
-            var query = $"SELECT Heights AS StringAttribute, Decade AS StringAttribute2, AVG({attribute}) AS AvgAttribute "+
+            var query = $"SELECT Heights AS StringAttribute, Decade AS StringAttribute2, ROUND( AVG({attribute}), 2) AS AvgAttribute "+
                         "FROM ( "+
                             "SELECT "+
                                 "CASE "+

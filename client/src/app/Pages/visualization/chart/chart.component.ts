@@ -24,7 +24,7 @@ export class ChartComponent implements OnInit, AfterViewInit{
   chart: any
   chartOptions = {
 		animationEnabled: true,
-		theme: "light2",
+		theme: "dark2",
 		title: {
 			text: ""
 		},
