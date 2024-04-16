@@ -28,4 +28,14 @@
     
         
     <button class="btn btn-dark" (click)="navigateToQueryPage()">Create a Query</button> 
+    <div class="d-flex justify-content-center p-2 mt-2">
+        <div>
+            <button class="btn btn-dark" (click)="getNumberOfTuples()">Get Total Number of Tuples</button> 
+        </div>
+        @if (numberOfTuples> 0) {
+            <div class="ms-3 mt-1">
+                {{ numberOfTuples.toLocaleString()}} !
+            </div>
+        }
+    </div>
 </div>

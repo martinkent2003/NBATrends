@@ -1,9 +1,9 @@
 
 export class QueryParams {
-  queryOption: Number
+  queryOption: Number // Set Query Number OR Custom
 
-  attributeSelected: number
-  fromYear: Number
+  attributeSelected: number // Points, Rebounds, etc.
+  fromYear: Number 
   toYear: Number
 
   statValue: Number

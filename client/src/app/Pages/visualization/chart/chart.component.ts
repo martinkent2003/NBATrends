@@ -6,7 +6,6 @@ import { DataPoint, LineData } from '../../../Models/dataPoint';
 import { QueryParams } from '../../../Models/queryParams';
 import { Observable } from 'rxjs';
 import { TeamsPlayersService } from '../../../Services/teams-players.service';
-import { query } from 'express';
 
 @Component({
   selector: 'app-chart',
@@ -23,17 +22,19 @@ export class ChartComponent implements OnInit, AfterViewInit{
   chartRendered: Boolean = false;
   chart: any
   chartOptions = {
+    backgroundColor: "rgba(0, 0, 0, 0)",
 		animationEnabled: true,
 		theme: "dark2",
 		title: {
 			text: ""
 		},
 		axisX: {
-			interval: 1
+			interval: 5,
+      valueFormatString: "####"
 		},
 		axisY: {
 			title: "Points",
-		    suffix: ""
+		  suffix: ""
 		},
 		toolTip: {
 			shared: true
@@ -95,7 +96,7 @@ export class ChartComponent implements OnInit, AfterViewInit{
           next: res => {
             var dataPointArray: DataPoint[] = []
             for (let data of res) {
-              let dp: DataPoint = {x: data.seasonId, y: data.avgAttribute, label: String(data.seasonId) + data.firstName + ' ' + data.lastName}
+              let dp: DataPoint = {x: data.seasonId, y: data.avgAttribute, label: String(data.seasonId) + ' ' + data.firstName + ' ' + data.lastName}
               dataPointArray.push(dp)
             }
             var lineData: LineData = {

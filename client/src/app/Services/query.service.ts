@@ -63,6 +63,10 @@ export class QueryService {
     return this.http.get<SeasonAverageAttribute[]>(this.baseUrl + 'players/yearlyAverages/playerId/' + playerId + '/attribute/' + stat)
   }
 
+  getNumberOfTuples() {
+    return this.http.get<any>(this.baseUrl + 'PlayerBoxScore/TotalTuples')
+  }
+
   updateQueryParams(newParams: QueryParams) {
     this.mainQueryParams = newParams
     this.mainQueryParams$?.next(newParams)
