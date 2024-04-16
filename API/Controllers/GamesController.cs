@@ -198,95 +198,67 @@ namespace API.Controllers
             var playoffGames = _context.Games.FromSqlRaw("SELECT * FROM Game g WHERE g.SeasonType = 'Playoffs';").ToList();
             return playoffGames;
         }
-        private static dynamic? GetAttributeValue(Game game, string attribute)
-        {
-            switch (attribute)
-            {
-                case "HPoints":
-                    return game.HPoints;
-                case "APoints":
-                    return game.APoints;
-                case "HFieldGoalsMade":
-                    return game.HFieldGoalsMade;
-                case "AFieldGoalsMade":
-                    return game.AFieldGoalsMade;
-                case "HFieldGoalsAttempted":
-                    return game.HFieldGoalsAttempted;
-                case "AFieldGoalsAttempted":
-                    return game.AFieldGoalsAttempted;
-                case "HFieldGoalPercentage":
-                    return game.HFieldGoalPercentage;
-                case "AFieldGoalPercentage":
-                    return game.AFieldGoalPercentage;
-                case "HFgThreesMade":
-                    return game.HFgThreesMade;
-                case "AFgThreesMade":
-                    return game.AFgThreesMade;
-                case "HFgThreesAttempted":
-                    return game.HFgThreesAttempted;
-                case "AFgThreesAttempted":
-                    return game.AFgThreesAttempted;
-                case "HFgThreePercentage":
-                    return game.HFgThreePercentage;
-                case "AFgThreePercentage":
-                    return game.AFgThreePercentage;
-                case "HFreeThrowsMade":
-                    return game.HFreeThrowsMade;
-                case "AFreeThrowsMade":
-                    return game.AFreeThrowsMade;
-                case "HFreeThrowsAttempted":
-                    return game.HFreeThrowsAttempted;
-                case "AFreeThrowsAttempted":
-                    return game.AFreeThrowsAttempted;
-                case "HFreeThrowPercentage":
-                    return game.HFreeThrowPercentage;
-                case "AFreeThrowPercentage":
-                    return game.AFreeThrowPercentage;
-                case "HOffensiveRebounds":
-                    return game.HOffensiveRebounds;
-                case "AOffensiveRebounds":
-                    return game.AOffensiveRebounds;
-                case "HDefensiveRebounds":
-                    return game.HDefensiveRebounds;
-                case "ADefensiveRebounds":
-                    return game.ADefensiveRebounds;
-                case "HRebounds":
-                    return game.HRebounds;
-                case "ARebounds":
-                    return game.ARebounds;
-                case "HAssists":
-                    return game.HAssists;
-                case "AAssists":    
-                    return game.AAssists;
-                case "HSteals":
-                    return game.HSteals;
-                case "ASteals":
-                    return game.ASteals;
-                case "HBlocks":   
-                    return game.HBlocks;    
-                case "ABlocks":   
-                    return game.ABlocks;    
-                case "HTurnovers":
-                    return game.HTurnovers;
-                case "ATurnovers":      
-                    return game.ATurnovers; 
-                case "HPersonalFouls":
-                    return game.HPersonalFouls;
-                case "APersonalFouls":  
-                    return game.APersonalFouls;
-                case "HPlusMinus":
-                    return game.HPlusMinus;
-                case "APlusMinus":  
-                    return game.APlusMinus;
-                case "HWinLoss":
-                    return game.HWinLoss;
-                case "AWinLoss":    
-                    return game.AWinLoss;   
-                
-                default:
-                    return null;
-            }
+
+        [HttpGet("yearlyOverStatByPosition/attribute/{attribute}/statistic/{statistic}/position/{position}")]
+        public ActionResult<IEnumerable<DateAndAttribute>> GetYearlyOverStatByPosition(string attribute, string statistic, string position){
+            var query = 
+                $"SELECT EXTRACT(YEAR FROM g.GameDate) AS Year, COUNT(*) AS AvgAttribute "+
+                "FROM PlayerBoxScore pbs " +
+                "JOIN Game g ON pbs.GameId = g.GameId "+
+                "JOIN CommonPlayerInfo cpi ON pbs.PlayerId = cpi.PersonId "+
+                $"WHERE pbs.{attribute} > {statistic} " +
+                $"AND cpi.Position = '{position}' "+
+                "GROUP BY EXTRACT(YEAR FROM g.GameDate) "+
+                "ORDER BY EXTRACT(YEAR FROM g.GameDate) ASC "; 
+
+            var yearlyAveragePerPositionStats = _context
+                .QueryResultAttributes
+                .FromSqlRaw(query)
+                .Select(r => new {
+                    r.Year,
+                    r.AvgAttribute
+                })
+                .ToList();
+
+            return Ok(yearlyAveragePerPositionStats);
         }
+
+        [HttpGet("yearlyOverStatByPositionRatio/attribute/{attribute}/statistic/{statistic}/position/{position}")]
+        public ActionResult<IEnumerable<DateAndAttribute>> GetYearlyOverStatByPositionRatioToYearlyGames(string attribute, string statistic, string position){
+            var query = 
+                "WITH GamesPerYear AS ( "+
+                    "SELECT EXTRACT(YEAR FROM GameDate) AS Year, COUNT(*) AS TotalGames "+
+                    "FROM Game "+
+                    "GROUP BY EXTRACT(YEAR FROM GameDate) "+
+                "), "+
+                "NumGamesOverPositionStat AS ( "+
+                    $"SELECT EXTRACT(YEAR FROM g.GameDate) AS Year, COUNT(*) AS AvgAttribute "+
+                    "FROM PlayerBoxScore pbs " +
+                    "JOIN Game g ON pbs.GameId = g.GameId "+
+                    "JOIN CommonPlayerInfo cpi ON pbs.PlayerId = cpi.PersonId "+
+                    $"WHERE pbs.{attribute} > {statistic} " +
+                    $"AND cpi.Position = '{position}' "+
+                    "GROUP BY EXTRACT(YEAR FROM g.GameDate) "+
+                    "ORDER BY EXTRACT(YEAR FROM g.GameDate) ASC "+
+                ") "+
+                "SELECT gpy.Year, ROUND(ngop.AvgAttribute/gpy.TotalGames, 2) AS AvgAttribute "+
+                "FROM GamesPerYear gpy "+
+                "JOIN NumGamesOverPositionStat ngop ON gpy.Year = ngop.Year "+
+                "ORDER BY gpy.Year ASC "; 
+
+            var yearlyAveragePerPositionStats = _context
+                .QueryResultAttributes
+                .FromSqlRaw(query)
+                .Select(r => new {
+                    r.Year,
+                    r.AvgAttribute
+                })
+                .ToList();
+
+            return Ok(yearlyAveragePerPositionStats);
+        }
+
+        
     }
     
 }
