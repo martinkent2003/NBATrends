@@ -1,5 +1,4 @@
 using API.Data;
-using Oracle.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
