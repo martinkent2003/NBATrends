@@ -1,6 +1,7 @@
 import * as https from 'https';
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 import { Player } from './playerinterface';
+import { environment } from '../../environments/environment.prod';
 
 // loads json data from parameter url
 export function loadJSON(url: string): Promise<any> {
@@ -56,7 +57,7 @@ function createPlayersArray(data: any[]) {
   }
 
   // test - confirms data can be loaded
-  loadJSON('https://localhost:5001/api/players')
+  loadJSON(environment.apiUrl + 'players')
   .then((data: any[]) => {
     doSomethingWithPlayers(data); 
   })

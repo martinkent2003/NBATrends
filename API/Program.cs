@@ -28,6 +28,8 @@ app.UseCors(x => x
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 app.MapControllers();
 

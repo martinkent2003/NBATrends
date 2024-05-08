@@ -5,10 +5,11 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { SeasonAverageAttribute } from "../Models/DTO/seasonAverageAttribute";
 import { firstPicksAverageAttribute } from "../Models/DTO/firstPicksAverageAttribute";
 import { PtsPerDecadeSeasonal } from "../Models/DTO/ptsPerDecadeSeasonal";
+import { environment } from "../../environments/environment.prod";
 
 @Injectable({providedIn: 'root'})
 export class QueryService {
-  baseUrl = 'https://localhost:5001/api/'
+  baseUrl = environment.apiUrl;
   mainQueryParams: QueryParams = new QueryParams()
   mainQueryParams$: BehaviorSubject<QueryParams> = new BehaviorSubject<QueryParams>(this.mainQueryParams)
 

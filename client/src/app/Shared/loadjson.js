@@ -92,7 +92,7 @@ function doSomethingWithPlayers(data) {
 }
 exports.doSomethingWithPlayers = doSomethingWithPlayers;
 // test - confirms data can be loaded
-loadJSON('https://localhost:5001/api/players')
+loadJSON(environment.apiUrl + "/players")
     .then(function (data) {
     doSomethingWithPlayers(data);
 })

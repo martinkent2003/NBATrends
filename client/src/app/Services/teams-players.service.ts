@@ -3,6 +3,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { Team } from '../Models/team';
 import { Player } from '../Models/player';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from '../../environments/environment.prod';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsPlayersService {
@@ -12,7 +13,7 @@ export class TeamsPlayersService {
     private teamMap$: BehaviorSubject<Map<String, Number>> = new BehaviorSubject(this.teamNameToId)
     private playerMap$: BehaviorSubject<Map<String, Number>> = new BehaviorSubject(this.playerNameToId)
 
-    baseUrl = 'https://localhost:5001/api/'
+    baseUrl = environment.apiUrl;
 
     constructor(private http: HttpClient) { }
 
