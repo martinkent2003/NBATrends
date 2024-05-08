@@ -14,9 +14,16 @@ builder.Services.AddDbContext<DataContext>(opt =>
         .UseUpperCaseNamingConvention();
 });
 
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseCors(x => x
+    .AllowAnyHeader()
+    .WithMethods("GET")
+    .AllowAnyOrigin()
+);
 
 app.UseHttpsRedirection();
 
