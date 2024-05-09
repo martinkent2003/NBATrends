@@ -13,10 +13,12 @@ builder.Services.AddDbContext<DataContext>(opt =>
         .UseOracle(builder.Configuration.GetConnectionString("CiseOracle"))
         .UseUpperCaseNamingConvention();
 });
+builder.Services.AddCors();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
 app.UseHttpsRedirection();
 
