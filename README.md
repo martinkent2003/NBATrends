@@ -469,15 +469,6 @@ All deliverable documents are available in the `deliverables/` directory.
 
 ---
 
-## Team Members
-
-| Name | Role | Contributions |
-| ---- | ---- | ------------- |
-| **Martin Kent** | Database Design Lead | ER Diagram, Schema Design, Repository Management |
-| **Alex Vargas** | Query Development | Complex Query Design, Optimization |
-| **Joseph Cuenco** | Frontend Development | UI/UX Design, Visualization |
-| **Ethan Alexander** | Data Analysis | Statistical Analysis, Query Testing |
-| **Derek Meyer** | Documentation | Technical Writing, User Guides |
 
 ---
 
